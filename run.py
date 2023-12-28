@@ -8,6 +8,7 @@
 
 # Data Analysis and Presentation
 # - Perform basic calculations on the fetched data (e.g., average price, daily change)
+# - Create a user menu to choose action
 # - Display the analyzed data in a simple, textual format within the command line
 
 # Exception Handling
