@@ -2,8 +2,15 @@
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
-import yahoo_fin.stock_info as si
+from dotenv import load_dotenv
+import os
+import requests
 
+# Load variables from .env file
+load_dotenv()
+
+# Access API key from environment variable
+api_key = os.getenv('API_KEY')
 
 # User Interaction
 # - User input stock ticker symbols via command line
