@@ -18,7 +18,19 @@ def main():
     print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
-# - Tool fetches stock data via api
+    fetch_stock_data(user_ticker)
+
+
+def fetch_stock_data(ticker):
+    # Tool fetches stock data via api
+    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}'
+    r = requests.get(url)
+    data = r.json()
+
+    print(data)
+
+
+main()
 
 
 # Data Analysis and Presentation
