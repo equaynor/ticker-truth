@@ -13,6 +13,8 @@ ticker = input("Enter a stock ticker symbol of interest. ")
 
 # - Tool fetches stock data via api
 
+ticker_data = si.get_data(ticker)
+
 # Data Analysis and Presentation
 # - Perform basic calculations on the fetched data (e.g., average price, daily change)
 # - Create a user menu to choose action
