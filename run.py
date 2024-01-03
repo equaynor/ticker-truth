@@ -13,14 +13,13 @@ load_dotenv()
 api_key = os.getenv('API_KEY')
 
 # User Interaction
-# - User input stock ticker symbols via command line
-
-print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
-ticker = input("Enter a stock ticker symbol of interest. ")
+def main():
+    # User input stock ticker symbols via command line
+    print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
+    user_ticker = input("Enter a stock ticker symbol of interest. ")
 
 # - Tool fetches stock data via api
 
-ticker_data = si.get_data(ticker)
 
 # Data Analysis and Presentation
 # - Perform basic calculations on the fetched data (e.g., average price, daily change)
