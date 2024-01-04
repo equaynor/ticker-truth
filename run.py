@@ -19,6 +19,7 @@ def main():
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
     fetch_stock_data(user_ticker)
+    print(data)
     user_menu()
 
 
@@ -59,9 +60,17 @@ def fetch_stock_data(ticker):
     # Tool fetches stock data via api
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}'
     r = requests.get(url)
+    global data
     data = r.json()
 
-    print(data)
+
+# def show_live_price(ticker):
+
+
+# def calculate_daily_change(ticker):
+
+
+# def calculate_100_day_average(ticker):
 
 
 main()
