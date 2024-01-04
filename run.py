@@ -19,6 +19,40 @@ def main():
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
     fetch_stock_data(user_ticker)
+    user_menu()
+
+
+def user_menu():
+    # Create a choice list for the user to choose from
+
+    choice = 0
+    while choice != 5:
+        print("Please choose an option...")
+        print("1. Show live price")
+        print("2. Show daily change")
+        print("3. Show 100 day average price")
+        print("4. Enter a new stock ticker symbol")
+        print("5. Quit")
+        choice = int(input())
+
+        if choice == 1:
+            print(f"Retrieving live price for {user_ticker}")
+            # show_live_price(user_ticker)
+
+        elif choice == 2:
+            print(f"Calculating daily change for {user_ticker}")
+            # calculate_daily_change(user_ticker)
+
+        elif choice == 3:
+            print(f"Calculating 100 day average for {user_ticker}")
+            # calculate_100_day_average(user_ticker)
+
+        elif choice == 4:
+            main()
+
+        elif choice == 5:
+            print("Quitting Program")
+    print("Program terminated!")
 
 
 def fetch_stock_data(ticker):
