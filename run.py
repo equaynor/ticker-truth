@@ -17,6 +17,7 @@ api_key = os.getenv('API_KEY')
 def main():
     # User input stock ticker symbols via command line
     print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
+    global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
     fetch_stock_data(user_ticker)
@@ -41,7 +42,9 @@ def user_menu(user_ticker):
             print(f"Retrieving last price for {user_ticker}...")
             lastPrice = show_last_price(user_ticker)
             print(f"${lastPrice}")
-
+            back_to_menu()
+            break
+            
         elif choice == 2:
             print(f"Calculating daily change for {user_ticker}...")
             # calculate_daily_change(user_ticker)
@@ -54,7 +57,7 @@ def user_menu(user_ticker):
             main()
 
         elif choice == 5:
-            print("Quitting Program")
+            print("Quitting Program...")
     print("Program terminated!")
 
 
@@ -71,9 +74,23 @@ def show_last_price(ticker):
     lastRefreshed = keysList[0]
     lastPrice = round(float(data['Time Series (Daily)'][lastRefreshed]['4. close']), 2)
     
-    
     return lastPrice
 
+    
+def back_to_menu():
+    
+    choice = 0
+    while choice != 2:
+        print("1. Back to menu")
+        print("2. Quit")
+        choice = int(input())
+        
+        if choice == 1:
+            user_menu(user_ticker)
+        
+        elif choice == 2:
+            print("Quitting Program...")
+    
 
 # def calculate_daily_change(ticker):
 
