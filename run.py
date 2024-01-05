@@ -47,7 +47,8 @@ def user_menu(user_ticker):
             
         elif choice == 2:
             print(f"Calculating daily change for {user_ticker}...")
-            # calculate_daily_change(user_ticker)
+            calculate_daily_change(user_ticker)
+            back_to_menu()
 
         elif choice == 3:
             print(f"Calculating 100 day average for {user_ticker}...")
@@ -92,7 +93,17 @@ def back_to_menu():
             print("Quitting Program...")
     
 
-# def calculate_daily_change(ticker):
+def calculate_daily_change(ticker):
+    keysList = list(data['Time Series (Daily)'].keys())
+    lastRefreshed = keysList[0]
+    lastPrice = float(data['Time Series (Daily)'][lastRefreshed]['4. close'])
+    lastButOne = keysList[1]
+    lboPrice = float(data['Time Series (Daily)'][lastButOne]['4. close'])
+    
+    dailyChange = round(lastPrice - lboPrice, 2)
+    print(f"The most recent daily change was ${dailyChange}.")
+    
+    
 
 
 # def calculate_100_day_average(ticker):
