@@ -39,7 +39,8 @@ def user_menu(user_ticker):
 
         if choice == 1:
             print(f"Retrieving last price for {user_ticker}...")
-            show_last_price(user_ticker)
+            lastPrice = show_last_price(user_ticker)
+            print(f"${lastPrice}")
 
         elif choice == 2:
             print(f"Calculating daily change for {user_ticker}...")
@@ -69,7 +70,9 @@ def show_last_price(ticker):
     keysList = list(data['Time Series (Daily)'].keys())
     lastRefreshed = keysList[0]
     lastPrice = round(float(data['Time Series (Daily)'][lastRefreshed]['4. close']), 2)
-    print(f"${lastPrice}")
+    
+    
+    return lastPrice
 
 
 # def calculate_daily_change(ticker):
