@@ -5,6 +5,7 @@
 from dotenv import load_dotenv
 import os
 import requests
+import datetime
 
 # Load variables from .env file
 load_dotenv()
@@ -20,16 +21,16 @@ def main():
 
     fetch_stock_data(user_ticker)
     print(data)
-    user_menu()
+    user_menu(user_ticker)
 
 
-def user_menu():
+def user_menu(user_ticker):
     # Create a choice list for the user to choose from
 
     choice = 0
     while choice != 5:
         print("Please choose an option...")
-        print("1. Show live price")
+        print("1. Show last price")
         print("2. Show daily change")
         print("3. Show 100 day average price")
         print("4. Enter a new stock ticker symbol")
@@ -37,15 +38,15 @@ def user_menu():
         choice = int(input())
 
         if choice == 1:
-            print(f"Retrieving live price for {user_ticker}")
-            # show_live_price(user_ticker)
+            print(f"Retrieving last price for {user_ticker}...")
+            show_last_price(user_ticker)
 
         elif choice == 2:
-            print(f"Calculating daily change for {user_ticker}")
+            print(f"Calculating daily change for {user_ticker}...")
             # calculate_daily_change(user_ticker)
 
         elif choice == 3:
-            print(f"Calculating 100 day average for {user_ticker}")
+            print(f"Calculating 100 day average for {user_ticker}...")
             # calculate_100_day_average(user_ticker)
 
         elif choice == 4:
@@ -64,7 +65,11 @@ def fetch_stock_data(ticker):
     data = r.json()
 
 
-# def show_live_price(ticker):
+def show_last_price(ticker):
+    keysList = list(data['Time Series (Daily)'].keys())
+    lastRefreshed = keysList[0]
+    lastPrice = round(float(data['Time Series (Daily)'][lastRefreshed]['4. close']), 2)
+    print(f"${lastPrice}")
 
 
 # def calculate_daily_change(ticker):
