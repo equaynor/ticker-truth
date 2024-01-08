@@ -49,11 +49,13 @@ def user_menu(user_ticker):
             print(f"Calculating daily change for {user_ticker}...")
             calculate_daily_change(user_ticker)
             back_to_menu()
+            break
 
         elif choice == 3:
             print(f"Calculating 100 day average for {user_ticker}...")
             calculate_100_day_average(user_ticker)
             back_to_menu()
+            break
 
         elif choice == 4:
             main()
@@ -114,13 +116,10 @@ def calculate_100_day_average(ticker):
     for key in keysList:
         price = float(data['Time Series (Daily)'][key]['4. close'])
         chronoPrices.append(price)
-        print(chronoPrices[])
     
     # Calculate the average of the last 100 prices
-    # for price in chronoPrices[0, 100]:
-    #     price += price
-    #     average = price / 100
-    #     print(average)
+    average = sum(chronoPrices[:100])/ 100
+    print(f"The 100 day average price of {ticker} is ${average}.")
     
 
 
