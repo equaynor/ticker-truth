@@ -52,7 +52,8 @@ def user_menu(user_ticker):
 
         elif choice == 3:
             print(f"Calculating 100 day average for {user_ticker}...")
-            # calculate_100_day_average(user_ticker)
+            calculate_100_day_average(user_ticker)
+            back_to_menu()
 
         elif choice == 4:
             main()
@@ -103,10 +104,24 @@ def calculate_daily_change(ticker):
     dailyChange = round(lastPrice - lboPrice, 2)
     print(f"The most recent daily change was ${dailyChange}.")
     
+
+def calculate_100_day_average(ticker):
+    # Create a list of Time Series keys from stock data
+    keysList = list(data['Time Series (Daily)'].keys())
     
-
-
-# def calculate_100_day_average(ticker):
+    # Create a list of all the closing prices
+    chronoPrices = []
+    for key in keysList:
+        price = float(data['Time Series (Daily)'][key]['4. close'])
+        chronoPrices.append(price)
+        print(chronoPrices[])
+    
+    # Calculate the average of the last 100 prices
+    # for price in chronoPrices[0, 100]:
+    #     price += price
+    #     average = price / 100
+    #     print(average)
+    
 
 
 main()
