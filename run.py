@@ -22,7 +22,7 @@ def user_menu(user_ticker):
     choice = 0
     while choice != 5:
         print("Please choose an option...")
-        print("1. Show last price")
+        print("1. Show latest stock data")
         print("2. Show daily change")
         print("3. Show 100 day average price")
         print("4. Enter a new stock ticker symbol")
@@ -30,9 +30,8 @@ def user_menu(user_ticker):
         choice = int(input())
 
         if choice == 1:
-            print(f"Retrieving last price for {user_ticker}...")
-            lastPrice = show_last_price(user_ticker)
-            print(f"${lastPrice}")
+            print(f"Retrieving latest stock data for {user_ticker}...")
+            fetch_latest_stock_data(user_ticker)
             back_to_menu()
             break
             
@@ -66,12 +65,9 @@ def fetch_stock_data(ticker):
     print(historical_data)
 
 
-def show_last_price(ticker):
-    keysList = list(data['Time Series (Daily)'].keys())
-    lastRefreshed = keysList[0]
-    lastPrice = round(float(data['Time Series (Daily)'][lastRefreshed]['4. close']), 2)
-    
-    return lastPrice
+def fetch_latest_stock_data(ticker):
+
+    print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
 
     
 def back_to_menu():
