@@ -2,16 +2,8 @@
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
-from dotenv import load_dotenv
-import os
-import requests
-import datetime
+import yfinance as yf
 
-# Load variables from .env file
-load_dotenv()
-
-# Access API key from environment variable
-api_key = os.getenv('API_KEY')
 
 # User Interaction
 def main():
@@ -21,7 +13,6 @@ def main():
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
     fetch_stock_data(user_ticker)
-    print(data)
     user_menu(user_ticker)
 
 
@@ -66,11 +57,13 @@ def user_menu(user_ticker):
 
 
 def fetch_stock_data(ticker):
-    # Tool fetches stock data via api
-    url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ticker}&apikey={api_key}'
-    r = requests.get(url)
-    global data
-    data = r.json()
+    # Fetch data for the provided ticker symbol
+    stock_data = yf.Ticker(ticker)
+
+    global historical_data
+    historical_data = stock_data.history(period="1y")
+
+    print(historical_data)
 
 
 def show_last_price(ticker):
