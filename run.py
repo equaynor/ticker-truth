@@ -86,14 +86,13 @@ def back_to_menu():
     
 
 def calculate_daily_change(ticker):
-    keysList = list(data['Time Series (Daily)'].keys())
-    lastRefreshed = keysList[0]
-    lastPrice = float(data['Time Series (Daily)'][lastRefreshed]['4. close'])
-    lastButOne = keysList[1]
-    lboPrice = float(data['Time Series (Daily)'][lastButOne]['4. close'])
     
-    dailyChange = round(lastPrice - lboPrice, 2)
-    print(f"The most recent daily change was ${dailyChange}.")
+    stock_data = yf.Ticker(ticker)
+    
+    historical_data = stock_data.history(period="1mo")
+    historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
+    
+    print(historical_data[["Open", "Close", "Daily Change"]])
     
 
 def calculate_100_day_average(ticker):
