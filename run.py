@@ -66,7 +66,7 @@ def fetch_stock_data(ticker, duration):
 
 def fetch_latest_stock_data(ticker):
 
-
+    historical_data = fetch_stock_data(ticker, "1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
 
     
