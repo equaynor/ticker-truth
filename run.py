@@ -12,7 +12,6 @@ def main():
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
-    fetch_stock_data(user_ticker)
     user_menu(user_ticker)
 
 
@@ -66,6 +65,7 @@ def fetch_stock_data(ticker, duration):
 
 
 def fetch_latest_stock_data(ticker):
+
 
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
 
