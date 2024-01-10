@@ -55,14 +55,14 @@ def user_menu(user_ticker):
     print("Program terminated!")
 
 
-def fetch_stock_data(ticker):
+def fetch_stock_data(ticker, duration):
     # Fetch data for the provided ticker symbol
     stock_data = yf.Ticker(ticker)
 
-    global historical_data
-    historical_data = stock_data.history(period="1y")
+    # Fetch historical data
+    historical_data = stock_data.history(period=duration)
 
-    print(historical_data)
+    return historical_data
 
 
 def fetch_latest_stock_data(ticker):
