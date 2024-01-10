@@ -96,20 +96,10 @@ def calculate_daily_change(ticker):
     
 
 def calculate_100_day_average(ticker):
-    # Create a list of Time Series keys from stock data
-    keysList = list(data['Time Series (Daily)'].keys())
     
-    # Create a list of all the closing prices
-    chronoPrices = []
-    for key in keysList:
-        price = float(data['Time Series (Daily)'][key]['4. close'])
-        chronoPrices.append(price)
-    
-    # Calculate the average of the last 100 prices
-    average = sum(chronoPrices[:100])/ 100
-    print(f"The 100 day average price of {ticker} is ${average}.")
-    
+    historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
+    print(historical_data.tail(20)[["Close", "100 Day MA"]])
 
 main()
 
