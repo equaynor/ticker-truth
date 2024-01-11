@@ -87,9 +87,7 @@ def back_to_menu():
 
 def calculate_daily_change(ticker):
     
-    stock_data = yf.Ticker(ticker)
-    
-    historical_data = stock_data.history(period="1mo")
+    historical_data = fetch_stock_data(ticker, "1mo")
     historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
     
     print(historical_data[["Open", "Close", "Daily Change"]])
@@ -97,6 +95,7 @@ def calculate_daily_change(ticker):
 
 def calculate_100_day_average(ticker):
     
+    historical_data = fetch_stock_data(ticker, "1y")
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
     print(historical_data.tail(20)[["Close", "100 Day MA"]])
