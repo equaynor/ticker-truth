@@ -7,7 +7,11 @@ import yfinance as yf
 
 # User Interaction
 def main():
-    # User input stock ticker symbols via command line
+    """
+    Initiates the financial analysis tool, prompting the user for a stock ticker symbol.
+    The user's chosen stock ticker symbol will be stored in the global variable 'user_ticker'.
+    """
+    
     print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
@@ -16,7 +20,12 @@ def main():
 
 
 def user_menu():
-    # Create a choice list for the user to choose from
+    """
+        Displays a menu for the user to choose from various financial analysis options.
+
+        The user can choose to view the latest stock data, calculate daily changes, 
+        calculate the 100-day average, enter a new stock ticker symbol, or quit the program.
+        """
 
     choice = 0
     while choice != 5:
@@ -64,6 +73,9 @@ def user_menu():
 
 
 def back_to_menu():
+    """
+    Provides options to the user to either go back to the main menu or quit the program.
+    """
     
     choice = 0
     while choice != 2:
@@ -88,6 +100,16 @@ def back_to_menu():
             
 
 def fetch_stock_data(duration):
+    """
+    Fetches historical stock data for the specified duration.
+
+    Parameters:
+    - duration (str): The duration for which historical data should be fetched (e.g., "1y", "1mo").
+
+    Returns:
+    pd.DataFrame: Historical stock data.
+    """
+    
     # Fetch data for the provided ticker symbol
     stock_data = yf.Ticker(user_ticker)
 
@@ -98,13 +120,25 @@ def fetch_stock_data(duration):
 
 
 def fetch_latest_stock_data():
+    """
+    Fetches and displays the latest stock data for the user's chosen stock ticker symbol.
 
+    Displays the Open, High, Low, Close, and Volume of the latest available stock data.
+    """
+    
+    # Set stock data duration to one year
     historical_data = fetch_stock_data("1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
     
 
 def calculate_daily_change():
+    """
+    Calculates and displays the daily change for the user's chosen stock ticker symbol.
+
+    Calculates the difference between the Close and Open prices for each day in the last month.
+    """
     
+    # Set stock data duration to one month
     historical_data = fetch_stock_data("1mo")
     historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
     
@@ -112,7 +146,13 @@ def calculate_daily_change():
     
 
 def calculate_100_day_average():
+    """
+    Calculates and displays the 100-day moving average for the user's chosen stock ticker symbol.
+
+    Calculates the 100-day moving average based on the closing prices of the last year's data.
+    """
     
+    # Set stock data duration to one year
     historical_data = fetch_stock_data("1y")
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
