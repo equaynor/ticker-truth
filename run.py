@@ -4,6 +4,7 @@
 
 import yfinance as yf
 
+user_menu = ""
 
 # User Interaction
 def main():
@@ -12,10 +13,10 @@ def main():
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
-    user_menu(user_ticker)
+    user_menu()
 
 
-def user_menu(user_ticker):
+def user_menu():
     # Create a choice list for the user to choose from
 
     choice = 0
@@ -30,19 +31,19 @@ def user_menu(user_ticker):
 
         if choice == 1:
             print(f"Retrieving latest stock data for {user_ticker}...")
-            fetch_latest_stock_data(user_ticker)
+            fetch_latest_stock_data()
             back_to_menu()
             break
             
         elif choice == 2:
             print(f"Calculating daily change for {user_ticker}...")
-            calculate_daily_change(user_ticker)
+            calculate_daily_change()
             back_to_menu()
             break
 
         elif choice == 3:
             print(f"Calculating 100 day average for {user_ticker}...")
-            calculate_100_day_average(user_ticker)
+            calculate_100_day_average()
             back_to_menu()
             break
 
@@ -54,9 +55,9 @@ def user_menu(user_ticker):
     print("Program terminated!")
 
 
-def fetch_stock_data(ticker, duration):
+def fetch_stock_data(duration):
     # Fetch data for the provided ticker symbol
-    stock_data = yf.Ticker(ticker)
+    stock_data = yf.Ticker(user_ticker)
 
     # Fetch historical data
     historical_data = stock_data.history(period=duration)
@@ -64,9 +65,9 @@ def fetch_stock_data(ticker, duration):
     return historical_data
 
 
-def fetch_latest_stock_data(ticker):
+def fetch_latest_stock_data():
 
-    historical_data = fetch_stock_data(ticker, "1y")
+    historical_data = fetch_stock_data("1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
 
     
@@ -79,23 +80,23 @@ def back_to_menu():
         choice = int(input())
         
         if choice == 1:
-            user_menu(user_ticker)
+            user_menu()
         
         elif choice == 2:
             print("Quitting Program...")
     
 
-def calculate_daily_change(ticker):
+def calculate_daily_change():
     
-    historical_data = fetch_stock_data(ticker, "1mo")
+    historical_data = fetch_stock_data("1mo")
     historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
     
     print(historical_data[["Open", "Close", "Daily Change"]])
     
 
-def calculate_100_day_average(ticker):
+def calculate_100_day_average():
     
-    historical_data = fetch_stock_data(ticker, "1y")
+    historical_data = fetch_stock_data("1y")
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
     print(historical_data.tail(20)[["Close", "100 Day MA"]])
