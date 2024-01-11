@@ -4,7 +4,6 @@
 
 import yfinance as yf
 
-user_menu = ""
 
 # User Interaction
 def main():
@@ -55,6 +54,21 @@ def user_menu():
     print("Program terminated!")
 
 
+def back_to_menu():
+    
+    choice = 0
+    while choice != 2:
+        print("1. Back to menu")
+        print("2. Quit")
+        choice = int(input())
+        
+        if choice == 1:
+            user_menu()
+        
+        elif choice == 2:
+            print("Quitting Program...")
+            
+
 def fetch_stock_data(duration):
     # Fetch data for the provided ticker symbol
     stock_data = yf.Ticker(user_ticker)
@@ -69,21 +83,6 @@ def fetch_latest_stock_data():
 
     historical_data = fetch_stock_data("1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
-
-    
-def back_to_menu():
-    
-    choice = 0
-    while choice != 2:
-        print("1. Back to menu")
-        print("2. Quit")
-        choice = int(input())
-        
-        if choice == 1:
-            user_menu()
-        
-        elif choice == 2:
-            print("Quitting Program...")
     
 
 def calculate_daily_change():
