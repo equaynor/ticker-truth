@@ -26,31 +26,40 @@ def user_menu():
         print("3. Show 100 day average price")
         print("4. Enter a new stock ticker symbol")
         print("5. Quit")
-        choice = int(input())
-
-        if choice == 1:
-            print(f"Retrieving latest stock data for {user_ticker}...")
-            fetch_latest_stock_data()
-            back_to_menu()
-            break
+        
+        try:
+            choice = int(input())
             
-        elif choice == 2:
-            print(f"Calculating daily change for {user_ticker}...")
-            calculate_daily_change()
-            back_to_menu()
-            break
+            if choice < 1 or choice > 5:
+                raise ValueError
+        
+        except ValueError:
+            print("Please choose a number between 1 and 5.")
+        
+        else:
+            if choice == 1:
+                print(f"Retrieving latest stock data for {user_ticker}...")
+                fetch_latest_stock_data()
+                back_to_menu()
+                break
+                
+            elif choice == 2:
+                print(f"Calculating daily change for {user_ticker}...")
+                calculate_daily_change()
+                back_to_menu()
+                break
 
-        elif choice == 3:
-            print(f"Calculating 100 day average for {user_ticker}...")
-            calculate_100_day_average()
-            back_to_menu()
-            break
+            elif choice == 3:
+                print(f"Calculating 100 day average for {user_ticker}...")
+                calculate_100_day_average()
+                back_to_menu()
+                break
 
-        elif choice == 4:
-            main()
+            elif choice == 4:
+                main()
 
-        elif choice == 5:
-            print("Quitting Program...")
+            elif choice == 5:
+                print("Quitting Program...")
     print("Program terminated!")
 
 
