@@ -3,7 +3,7 @@
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 
 import yfinance as yf
-
+import pyfiglet
 
 # User Interaction
 def main():
@@ -21,15 +21,12 @@ def main():
 
 
 def print_ascii_art():
-    ascii_art = """
-    ___________.__        __                  ___________              __  .__     
-    \__    ___/|__| ____ |  | __ ___________  \__    ___/______ __ ___/  |_|  |__  
-      |    |   |  |/ ___\|  |/ // __ \_  __ \   |    |  \_  __ \  |  \   __\  |  \ 
-      |    |   |  \  \___|    <\  ___/|  | \/   |    |   |  | \/  |  /|  | |   Y  \
-      |____|   |__|\___  >__|_ \\___  >__|      |____|   |__|  |____/ |__| |___|  /
-                       \/     \/    \/                                          \/ 
-    """
-    print(ascii_art)
+    
+    text = pyfiglet.figlet_format(text="Ticker Truth",
+                                  font="rozzo")
+    
+    print("\n")
+    print(text)
 
 
 def user_menu():
