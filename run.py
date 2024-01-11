@@ -12,11 +12,24 @@ def main():
     The user's chosen stock ticker symbol will be stored in the global variable 'user_ticker'.
     """
     
+    print_ascii_art()
     print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
     user_menu()
+
+
+def print_ascii_art():
+    ascii_art = """
+    ___________.__        __                  ___________              __  .__     
+    \__    ___/|__| ____ |  | __ ___________  \__    ___/______ __ ___/  |_|  |__  
+      |    |   |  |/ ___\|  |/ // __ \_  __ \   |    |  \_  __ \  |  \   __\  |  \ 
+      |    |   |  \  \___|    <\  ___/|  | \/   |    |   |  | \/  |  /|  | |   Y  \
+      |____|   |__|\___  >__|_ \\___  >__|      |____|   |__|  |____/ |__| |___|  /
+                       \/     \/    \/                                          \/ 
+    """
+    print(ascii_art)
 
 
 def user_menu():
