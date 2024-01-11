@@ -69,13 +69,22 @@ def back_to_menu():
     while choice != 2:
         print("1. Back to menu")
         print("2. Quit")
-        choice = int(input())
         
-        if choice == 1:
-            user_menu()
+        try:
+            choice = int(input())
+            
+            if choice < 1 or choice > 2:
+                raise ValueError
         
-        elif choice == 2:
-            print("Quitting Program...")
+        except ValueError:
+            print("Please choose a number 1 or number 2.")
+        
+        else:
+            if choice == 1:
+                user_menu()
+            
+            elif choice == 2:
+                print("Quitting Program...")
             
 
 def fetch_stock_data(duration):
