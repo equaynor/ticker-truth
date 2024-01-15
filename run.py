@@ -42,6 +42,9 @@ def main():
     # Step 4: Store Ticker Symbol
     store_ticker_search(user_data, user_ticker)
 
+    # Step 5: Send to Google Sheet
+    store_ticker_search_in_sheets(user_data, user_ticker)
+
     # Step 5: Pass arguments to user menu
     user_menu(user_data, user_ticker)
 
@@ -66,6 +69,23 @@ def store_ticker_search(user_data, ticker_symbol):
     # Store the user's ticker symbol search in the list
     user_data["ticker_searches"].append(ticker_symbol)
     print(user_data)
+
+
+def append_to_sheet(sheet, data):
+    sheet.append_row(data)
+
+
+def store_ticker_search_in_sheets(user_data, ticker_symbol):
+
+    # Assuming you have a sheet named 'Ticker Searches'
+    sheet_name = 'Ticker Searches'
+
+    # Prepare data to be stored in the sheet
+    data = [user_data["name"], ticker_symbol]
+
+    # Append data to the sheet
+    append_to_sheet(SHEET.worksheet(sheet_name), data)
+
 
 def user_menu(user_data, user_ticker):
     """
