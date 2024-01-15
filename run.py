@@ -38,11 +38,8 @@ def main():
     
     # Step 3: User Input Ticker Symbol
     user_ticker = input("Enter a stock ticker symbol of interest. ")
-    
-    # Step 4: Store Ticker Symbol
-    store_ticker_search(user_data, user_ticker)
 
-    # Step 5: Send to Google Sheet
+    # Step 4: Send to Google Sheet
     store_ticker_search_in_sheets(user_data, user_ticker)
 
     # Step 5: Pass arguments to user menu
@@ -65,26 +62,24 @@ def store_user_name(name):
     return user_data
 
 
-def store_ticker_search(user_data, ticker_symbol):
-    # Store the user's ticker symbol search in the list
-    user_data["ticker_searches"].append(ticker_symbol)
-    print(user_data)
-
-
-def append_to_sheet(sheet, data):
-    sheet.append_row(data)
-
-
 def store_ticker_search_in_sheets(user_data, ticker_symbol):
-
-    # Assuming you have a sheet named 'Ticker Searches'
+    """
+    Store the user's ticker search in Google Sheets.
+    """
     sheet_name = 'Ticker Searches'
 
-    # Prepare data to be stored in the sheet
-    data = [user_data["name"], ticker_symbol]
+    # Fetch all data from the sheet
+    all_data = SHEET.worksheet(sheet_name).get_all_values()
 
-    # Append data to the sheet
-    append_to_sheet(SHEET.worksheet(sheet_name), data)
+    # Check if the ticker symbol is already present in the local list or the Google Sheets
+    if not any(ticker_symbol == row[1] for row in all_data[1:] if row[0] == user_data['name']):
+
+        # Append the data to the Google Sheets
+        SHEET.worksheet(sheet_name).append_row([user_data['name'], ticker_symbol])
+
+        print(f"Successfully stored {ticker_symbol} for {user_data['name']}.")
+    else:
+        print(f"{ticker_symbol}is already stored for {user_data['name']}.")
 
 
 def user_menu(user_data, user_ticker):
@@ -135,7 +130,6 @@ def user_menu(user_data, user_ticker):
 
             elif choice == 4:
                 new_ticker_symbol = input("Enter a new stock ticker symbol: ")
-                store_ticker_search(user_data, new_ticker_symbol)
                 store_ticker_search_in_sheets(user_data, new_ticker_symbol)
                 user_menu(user_data, new_ticker_symbol)
 
@@ -237,9 +231,21 @@ def calculate_100_day_average(user_ticker):
 
 
 def show_previous_searches(user_data):
+    sheet_name = 'Ticker Searches'
+
+    # Fetch all data from the sheet
+    all_data = SHEET.worksheet(sheet_name).get_all_values()
+
     print(f"Previous searches for {user_data['name']}:")
-    for search in user_data["ticker_searches"]:
-        print(search)
+
+    if len(all_data) > 1:  # Check if there are more rows than just the header
+        previous_searches = (row[1] for row in all_data[1:] if row[0] == user_data['name'])
+        for ticker_symbol in previous_searches:
+            print(ticker_symbol)
+        
+    else:
+        print("No previous searches found.")
+
 
 main()
 
