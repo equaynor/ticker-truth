@@ -1,9 +1,6 @@
-# Your code goes here.
-# You can delete these comments, but do not change the name of this file
-# Write your code to expect a terminal of 80 characters wide and 24 rows high
-
 import yfinance as yf
 import pyfiglet
+import time
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -18,6 +15,7 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('ticker-history')
+SHEET_NAME = 'Ticker Searches'
 
 
 # User Interaction
@@ -28,7 +26,12 @@ def main():
     """
     
     print_ascii_art()
-    print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
+    print("""
+          *************************************************
+         **  Welcome to Ticker Truth - Your Finance Ally  **
+          *************************************************
+          """)
+    typewriter_effect(welcome_message)
     
     # Step 1: User Input Name
     user_name = input("Enter your name: ")
@@ -37,7 +40,7 @@ def main():
     user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
-    user_ticker = input("Enter a stock ticker symbol of interest. ")
+    user_ticker = input("\n Enter a stock ticker symbol of interest. \n")
 
     # Step 4: Send to Google Sheet
     store_ticker_search_in_sheets(user_data, user_ticker)
@@ -55,6 +58,28 @@ def print_ascii_art():
     print(text)
 
 
+def typewriter_effect(text, delay=0.02):
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
+
+
+welcome_message = """
+    Are you ready to unlock the secrets of the stock market? Dive into the world of finance with Ticker Truth, your personal financial analysis tool!
+
+    📊 Analyze stock data, calculate daily changes, and track the 100-day moving average to make informed investment decisions. Whether you're a seasoned investor or just getting started, Ticker Truth is here to guide you on your financial journey.
+
+    🔍 Enter your stock ticker symbols, explore historical data, and gain valuable insights. Plus, check out your previous searches to see how your interests have evolved over time.
+
+    🚀 Let's embark on this financial adventure together! Enter your name, choose a stock ticker, and let Ticker Truth empower your financial decisions.
+
+      *************************************************
+     **                Happy Investing!               **
+      *************************************************
+    """
+
+
 def store_user_name(name):
 
     user_data = {"name": name, "ticker_searches": []}
@@ -66,20 +91,19 @@ def store_ticker_search_in_sheets(user_data, ticker_symbol):
     """
     Store the user's ticker search in Google Sheets.
     """
-    sheet_name = 'Ticker Searches'
 
     # Fetch all data from the sheet
-    all_data = SHEET.worksheet(sheet_name).get_all_values()
+    all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     # Check if the ticker symbol is already present in the local list or the Google Sheets
     if not any(ticker_symbol == row[1] for row in all_data[1:] if row[0] == user_data['name']):
 
         # Append the data to the Google Sheets
-        SHEET.worksheet(sheet_name).append_row([user_data['name'], ticker_symbol])
+        SHEET.worksheet(SHEET_NAME).append_row([user_data['name'], ticker_symbol])
 
         print(f"Successfully stored {ticker_symbol} for {user_data['name']}.")
     else:
-        print(f"{ticker_symbol}is already stored for {user_data['name']}.")
+        print(f"{ticker_symbol} is already stored for {user_data['name']}.")
 
 
 def user_menu(user_data, user_ticker):
@@ -231,10 +255,9 @@ def calculate_100_day_average(user_ticker):
 
 
 def show_previous_searches(user_data):
-    sheet_name = 'Ticker Searches'
 
     # Fetch all data from the sheet
-    all_data = SHEET.worksheet(sheet_name).get_all_values()
+    all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     print(f"Previous searches for {user_data['name']}:")
 
@@ -248,13 +271,3 @@ def show_previous_searches(user_data):
 
 
 main()
-
-
-# Data Analysis and Presentation
-# - Perform basic calculations on the fetched data (e.g., average price, daily change)
-# - Create a user menu to choose action
-# - Display the analyzed data in a simple, textual format within the command line
-
-# Exception Handling
-# - Implement error handling to manage incorrect or empty inputs and API request failures
-# - Ensure the tool communicates errors effectively to the user for a smoother experience
