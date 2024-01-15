@@ -92,17 +92,18 @@ def user_menu(user_data, user_ticker):
         Displays a menu for the user to choose from various financial analysis options.
 
         The user can choose to view the latest stock data, calculate daily changes, 
-        calculate the 100-day average, enter a new stock ticker symbol, or quit the program.
+        calculate the 100-day average, enter a new stock ticker symbol, show previous searches, or quit the program.
         """
 
     choice = 0
-    while choice != 5:
+    while choice != 6:
         print("Please choose an option...")
         print("1. Show latest stock data")
         print("2. Show daily change")
         print("3. Show 100 day average price")
         print("4. Enter a new stock ticker symbol")
-        print("5. Quit")
+        print("5. Show previous searches")
+        print("6. Quit")
         
         try:
             choice = int(input())
@@ -135,9 +136,15 @@ def user_menu(user_data, user_ticker):
             elif choice == 4:
                 new_ticker_symbol = input("Enter a new stock ticker symbol: ")
                 store_ticker_search(user_data, new_ticker_symbol)
+                store_ticker_search_in_sheets(user_data, new_ticker_symbol)
                 user_menu(user_data, new_ticker_symbol)
 
             elif choice == 5:
+                show_previous_searches(user_data)
+                back_to_menu(user_data, user_ticker)
+                break
+
+            elif choice == 6:
                 print("Quitting Program...")
     print("Program terminated!")
 
@@ -227,6 +234,12 @@ def calculate_100_day_average(user_ticker):
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
     print(historical_data.tail(20)[["Close", "100 Day MA"]])
+
+
+def show_previous_searches(user_data):
+    print(f"Previous searches for {user_data['name']}:")
+    for search in user_data["ticker_searches"]:
+        print(search)
 
 main()
 
