@@ -29,6 +29,14 @@ def main():
     
     print_ascii_art()
     print("Welcome! This is a tiny financial analysis tool to help with your personal investment choices.")
+    
+    # Step 1: User Input Name
+    user_name = input("Enter your name: ")
+
+    # Step 2: Name Storage
+    store_user_name(user_name)
+    
+    # Step 3: User Input Ticker Symbol
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
 
