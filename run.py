@@ -37,13 +37,13 @@ def main():
     user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
-    global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
     
     # Step 4: Store Ticker Symbol
     store_ticker_search(user_data, user_ticker)
 
-    user_menu()
+    # Step 5: Pass arguments to user menu
+    user_menu(user_data, user_ticker)
 
 
 def print_ascii_art():
@@ -64,10 +64,10 @@ def store_user_name(name):
 
 def store_ticker_search(user_data, ticker_symbol):
     # Store the user's ticker symbol search in the list
-    user_data["ticker_symbols"].append(ticker_symbol)
+    user_data["ticker_searches"].append(ticker_symbol)
+    print(user_data)
 
-
-def user_menu():
+def user_menu(user_data, user_ticker):
     """
         Displays a menu for the user to choose from various financial analysis options.
 
@@ -96,31 +96,33 @@ def user_menu():
         else:
             if choice == 1:
                 print(f"Retrieving latest stock data for {user_ticker}...")
-                fetch_latest_stock_data()
-                back_to_menu()
+                fetch_latest_stock_data(user_ticker)
+                back_to_menu(user_data, user_ticker)
                 break
                 
             elif choice == 2:
                 print(f"Calculating daily change for {user_ticker}...")
-                calculate_daily_change()
-                back_to_menu()
+                calculate_daily_change(user_ticker)
+                back_to_menu(user_data, user_ticker)
                 break
 
             elif choice == 3:
                 print(f"Calculating 100 day average for {user_ticker}...")
-                calculate_100_day_average()
-                back_to_menu()
+                calculate_100_day_average(user_ticker)
+                back_to_menu(user_data, user_ticker)
                 break
 
             elif choice == 4:
-                main()
+                new_ticker_symbol = input("Enter a new stock ticker symbol: ")
+                store_ticker_search(user_data, new_ticker_symbol)
+                user_menu(user_data, new_ticker_symbol)
 
             elif choice == 5:
                 print("Quitting Program...")
     print("Program terminated!")
 
 
-def back_to_menu():
+def back_to_menu(user_data, user_ticker):
     """
     Provides options to the user to either go back to the main menu or quit the program.
     """
@@ -141,13 +143,13 @@ def back_to_menu():
         
         else:
             if choice == 1:
-                user_menu()
+                user_menu(user_data, user_ticker)
             
             elif choice == 2:
                 print("Quitting Program...")
             
 
-def fetch_stock_data(duration):
+def fetch_stock_data(user_ticker, duration):
     """
     Fetches historical stock data for the specified duration.
 
@@ -167,7 +169,7 @@ def fetch_stock_data(duration):
     return historical_data
 
 
-def fetch_latest_stock_data():
+def fetch_latest_stock_data(user_ticker):
     """
     Fetches and displays the latest stock data for the user's chosen stock ticker symbol.
 
@@ -175,11 +177,11 @@ def fetch_latest_stock_data():
     """
     
     # Set stock data duration to one year
-    historical_data = fetch_stock_data("1y")
+    historical_data = fetch_stock_data(user_ticker, "1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
     
 
-def calculate_daily_change():
+def calculate_daily_change(user_ticker):
     """
     Calculates and displays the daily change for the user's chosen stock ticker symbol.
 
@@ -187,13 +189,13 @@ def calculate_daily_change():
     """
     
     # Set stock data duration to one month
-    historical_data = fetch_stock_data("1mo")
+    historical_data = fetch_stock_data(user_ticker, "1mo")
     historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
     
     print(historical_data[["Open", "Close", "Daily Change"]])
     
 
-def calculate_100_day_average():
+def calculate_100_day_average(user_ticker):
     """
     Calculates and displays the 100-day moving average for the user's chosen stock ticker symbol.
 
@@ -201,7 +203,7 @@ def calculate_100_day_average():
     """
     
     # Set stock data duration to one year
-    historical_data = fetch_stock_data("1y")
+    historical_data = fetch_stock_data(user_ticker, "1y")
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
     print(historical_data.tail(20)[["Close", "100 Day MA"]])
