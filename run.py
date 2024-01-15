@@ -43,6 +43,13 @@ def main():
     user_menu()
 
 
+def store_user_name(name):
+
+    user_data = {"name": name, "ticker_searches": []}
+
+    return user_data
+
+
 def print_ascii_art():
     
     text = pyfiglet.figlet_format(text="Ticker Truth",
