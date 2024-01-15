@@ -34,20 +34,16 @@ def main():
     user_name = input("Enter your name: ")
 
     # Step 2: Name Storage
-    store_user_name(user_name)
+    user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
     global user_ticker
     user_ticker = input("Enter a stock ticker symbol of interest. ")
+    
+    # Step 4: Store Ticker Symbol
+    store_ticker_search(user_data, user_ticker)
 
     user_menu()
-
-
-def store_user_name(name):
-
-    user_data = {"name": name, "ticker_searches": []}
-
-    return user_data
 
 
 def print_ascii_art():
@@ -57,6 +53,18 @@ def print_ascii_art():
     
     print("\n")
     print(text)
+
+
+def store_user_name(name):
+
+    user_data = {"name": name, "ticker_searches": []}
+
+    return user_data
+
+
+def store_ticker_search(user_data, ticker_symbol):
+    # Store the user's ticker symbol search in the list
+    user_data["ticker_symbols"].append(ticker_symbol)
 
 
 def user_menu():
