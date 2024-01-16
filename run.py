@@ -24,8 +24,7 @@ def main():
     Initiates the financial analysis tool, prompting the user for a stock ticker symbol.
     The user's chosen stock ticker symbol will be stored in the global variable 'user_ticker'.
     """
-    
-    print_ascii_art()
+    print()
     print("""
          *************************************************
         **  Welcome to Ticker Truth - Your Finance Ally  **
@@ -52,16 +51,6 @@ def main():
 
     # Step 5: Pass arguments to user menu
     user_menu(user_data, user_ticker)
-
-
-def print_ascii_art():
-    
-    text = pyfiglet.figlet_format(
-        text="Ticker Truth",
-        font="rozzo")
-    
-    print("\n")
-    print(text)
 
 
 def typewriter_effect(text, delay=0.02):
