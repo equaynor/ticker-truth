@@ -27,11 +27,16 @@ def main():
     
     print_ascii_art()
     print("""
-          *************************************************
-         **  Welcome to Ticker Truth - Your Finance Ally  **
-          *************************************************
+         *************************************************
+        **  Welcome to Ticker Truth - Your Finance Ally  **
+         *************************************************
           """)
     typewriter_effect(welcome_message)
+    print("""
+         *************************************************
+        **                Happy Investing!               **
+         *************************************************
+        """)
     
     # Step 1: User Input Name
     user_name = input("Enter your name: ")
@@ -40,7 +45,7 @@ def main():
     user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
-    user_ticker = input("\n Enter a stock ticker symbol of interest. \n")
+    user_ticker = input("\nEnter a stock ticker symbol of interest. ")
 
     # Step 4: Send to Google Sheet
     store_ticker_search_in_sheets(user_data, user_ticker)
@@ -51,8 +56,9 @@ def main():
 
 def print_ascii_art():
     
-    text = pyfiglet.figlet_format(text="Ticker Truth",
-                                  font="rozzo")
+    text = pyfiglet.figlet_format(
+        text="Ticker Truth",
+        font="rozzo")
     
     print("\n")
     print(text)
@@ -73,10 +79,6 @@ welcome_message = """
     🔍 Enter your stock ticker symbols, explore historical data, and gain valuable insights. Plus, check out your previous searches to see how your interests have evolved over time.
 
     🚀 Let's embark on this financial adventure together! Enter your name, choose a stock ticker, and let Ticker Truth empower your financial decisions.
-
-      *************************************************
-     **                Happy Investing!               **
-      *************************************************
     """
 
 
@@ -116,44 +118,45 @@ def user_menu(user_data, user_ticker):
 
     choice = 0
     while choice != 6:
-        print("Please choose an option...")
+        print("\nPlease choose an option...")
         print("1. Show latest stock data")
         print("2. Show daily change")
         print("3. Show 100 day average price")
         print("4. Enter a new stock ticker symbol")
         print("5. Show previous searches")
-        print("6. Quit")
+        print("6. Quit \n")
         
         try:
-            choice = int(input())
+            choice = int(input("Please choose a number between 1 and 6: "))
             
-            if choice < 1 or choice > 5:
+            if choice < 1 or choice > 6:
                 raise ValueError
         
         except ValueError:
-            print("Please choose a number between 1 and 5.")
+            print("Please choose a number between 1 and 6.")
         
         else:
             if choice == 1:
-                print(f"Retrieving latest stock data for {user_ticker}...")
+                print(f"\nRetrieving latest stock data for {user_ticker}...\n")
                 fetch_latest_stock_data(user_ticker)
                 back_to_menu(user_data, user_ticker)
                 break
                 
             elif choice == 2:
-                print(f"Calculating daily change for {user_ticker}...")
+                print(f"\nCalculating daily change for {user_ticker}...\n")
                 calculate_daily_change(user_ticker)
                 back_to_menu(user_data, user_ticker)
                 break
 
             elif choice == 3:
-                print(f"Calculating 100 day average for {user_ticker}...")
+                print(f"\nCalculating 100 day average for {user_ticker}...\n")
                 calculate_100_day_average(user_ticker)
                 back_to_menu(user_data, user_ticker)
                 break
 
             elif choice == 4:
-                new_ticker_symbol = input("Enter a new stock ticker symbol: ")
+                new_ticker_symbol = input("\nEnter a new stock ticker symbol: ")
+                print()
                 store_ticker_search_in_sheets(user_data, new_ticker_symbol)
                 user_menu(user_data, new_ticker_symbol)
 
@@ -163,7 +166,8 @@ def user_menu(user_data, user_ticker):
                 break
 
             elif choice == 6:
-                print("Quitting Program...")
+                print("\n Quitting Program...")
+        break
     print("Program terminated!")
 
 
@@ -174,24 +178,25 @@ def back_to_menu(user_data, user_ticker):
     
     choice = 0
     while choice != 2:
-        print("1. Back to menu")
-        print("2. Quit")
+        print("\n1. Back to menu")
+        print("2. Quit\n")
         
         try:
-            choice = int(input())
+            choice = int(input("Please enter number 1 or number 2: "))
             
             if choice < 1 or choice > 2:
                 raise ValueError
         
         except ValueError:
-            print("Please choose a number 1 or number 2.")
+            print("Invalid input. Please choose number 1 or number 2.")
         
         else:
             if choice == 1:
                 user_menu(user_data, user_ticker)
             
             elif choice == 2:
-                print("Quitting Program...")
+                print("\nQuitting Program...")
+        break
             
 
 def fetch_stock_data(user_ticker, duration):
@@ -259,6 +264,7 @@ def show_previous_searches(user_data):
     # Fetch all data from the sheet
     all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
 
+    print("\nRetrieving precious searches...\n")
     print(f"Previous searches for {user_data['name']}:")
 
     if len(all_data) > 1:  # Check if there are more rows than just the header
@@ -267,7 +273,7 @@ def show_previous_searches(user_data):
             print(ticker_symbol)
         
     else:
-        print("No previous searches found.")
+        print("No previous searches found. \n")
 
 
 main()
