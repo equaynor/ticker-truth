@@ -1,5 +1,5 @@
 import yfinance as yf
-import pyfiglet
+import pandas as pd
 import time
 import gspread
 from google.oauth2.service_account import Credentials
@@ -44,8 +44,8 @@ def main():
     user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
-    user_ticker = input("\nEnter a stock ticker symbol of interest. ")
-
+    user_ticker = input_validation_loop()
+    
     # Step 4: Send to Google Sheet
     store_ticker_search_in_sheets(user_data, user_ticker)
 
@@ -76,6 +76,31 @@ def store_user_name(name):
     user_data = {"name": name, "ticker_searches": []}
 
     return user_data
+
+
+def validate_ticker_symbol(ticker_symbol):
+    """
+    Validates the provided ticker symbol.
+    """
+    try:
+        # Attempt to create a Ticker object to check if the symbol is valid
+        yf.Ticker(ticker_symbol).info
+        return True
+    except ValueError:
+        return False
+
+
+def input_validation_loop ():
+    while True:
+        # Ask for user input
+        user_ticker = input("\nEnter a stock ticker symbol of interest: ")
+
+        # Validate the user input for the ticker symbol
+        if validate_ticker_symbol(user_ticker):
+            break
+        else:
+            print(f"The provided ticker symbol '{user_ticker}' is invalid. Please enter a valid ticker symbol.")
+    return user_ticker
 
 
 def store_ticker_search_in_sheets(user_data, ticker_symbol):
@@ -193,6 +218,7 @@ def fetch_stock_data(user_ticker, duration):
     Fetches historical stock data for the specified duration.
 
     Parameters:
+    - user_ticker (str): Ticker symbol for the stock.
     - duration (str): The duration for which historical data should be fetched (e.g., "1y", "1mo").
 
     Returns:
