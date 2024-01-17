@@ -25,17 +25,17 @@ def main():
     The user's chosen stock ticker symbol will be stored in the global variable 'user_ticker'.
     """
     print()
-    print("""
-         *************************************************
-        **  Welcome to Ticker Truth - Your Finance Ally  **
-         *************************************************
-          """)
-    typewriter_effect(welcome_message)
-    print("""
-         *************************************************
-        **                Happy Investing!               **
-         *************************************************
-        """)
+    # print("""
+    #      *************************************************
+    #     **  Welcome to Ticker Truth - Your Finance Ally  **
+    #      *************************************************
+    #       """)
+    # typewriter_effect(welcome_message)
+    # print("""
+    #      *************************************************
+    #     **                Happy Investing!               **
+    #      *************************************************
+    #     """)
     
     # Step 1: User Input Name
     user_name = input("Enter your name: ")
@@ -82,10 +82,11 @@ def validate_ticker_symbol(ticker_symbol):
     """
     Validates the provided ticker symbol.
     """
+    df = pd.read_csv('Notebooks/ticker_data.csv')
     try:
         # Attempt to create a Ticker object to check if the symbol is valid
-        yf.Ticker(ticker_symbol).info
-        return True
+        if ticker_symbol in df["Symbol"].values:
+            return True
     except ValueError:
         return False
 
@@ -95,11 +96,14 @@ def input_validation_loop ():
         # Ask for user input
         user_ticker = input("\nEnter a stock ticker symbol of interest: ")
 
+         # Convert user input to all caps
+        user_ticker = user_ticker.upper()
+
         # Validate the user input for the ticker symbol
         if validate_ticker_symbol(user_ticker):
             break
         else:
-            print(f"The provided ticker symbol '{user_ticker}' is invalid. Please enter a valid ticker symbol.")
+            print(f"\nThe provided ticker symbol '{user_ticker}' is invalid. Please enter a valid ticker symbol.")
     return user_ticker
 
 
@@ -169,7 +173,7 @@ def user_menu(user_data, user_ticker):
                 break
 
             elif choice == 4:
-                new_ticker_symbol = input("\nEnter a new stock ticker symbol: ")
+                new_ticker_symbol = input_validation_loop()
                 print()
                 store_ticker_search_in_sheets(user_data, new_ticker_symbol)
                 user_menu(user_data, new_ticker_symbol)
