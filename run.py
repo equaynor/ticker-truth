@@ -18,24 +18,25 @@ SHEET = GSPREAD_CLIENT.open('ticker-history')
 SHEET_NAME = 'Ticker Searches'
 
 
-# User Interaction
+# Financial Analysis Tool
+
 def main():
     """
     Initiates the financial analysis tool, prompting the user for a username and a stock ticker symbol.
     The user's chosen stock ticker symbol will be stored in the global variable 'validated_ticker'.
     """
     print()
-    # print("""
-    #      *************************************************
-    #     **  Welcome to Ticker Truth - Your Finance Ally  **
-    #      *************************************************
-    #       """)
-    # typewriter_effect(welcome_message)
-    # print("""
-    #      *************************************************
-    #     **                Happy Investing!               **
-    #      *************************************************
-    #     """)
+    print("""
+         *************************************************
+        **  Welcome to Ticker Truth - Your Finance Ally  **
+         *************************************************
+          """)
+    typewriter_effect(welcome_message)
+    print("""
+         *************************************************
+        **                Happy Investing!               **
+         *************************************************
+        """)
     
     # Step 1: User Input Name
     user_name = input("Enter your name: ")
@@ -66,9 +67,9 @@ def typewriter_effect(text, delay=0.02):
 welcome_message = """
     Are you ready to unlock the secrets of the stock market? Dive into the world of finance with Ticker Truth, your personal financial analysis tool!
 
-    📊 Analyze stock data, calculate daily changes, and track the 100-day moving average to make informed investment decisions. Whether you're a seasoned investor or just getting started, Ticker Truth is here to guide you on your financial journey.
+    📊 Analyze the S&P 500 stock data, calculate daily changes, and track the 100-day moving average to make informed investment decisions. Whether you're a seasoned investor or just getting started, Ticker Truth is here to guide you on your financial journey.
 
-    🔍 Enter your stock ticker symbols, explore historical data, and gain valuable insights. Plus, check out your previous searches to see how your interests have evolved over time.
+    🔍 Enter your S&P 500 stock ticker symbols or company names of interest, explore historical data, and gain valuable insights. Plus, check out your previous searches to see how your interests have evolved over time.
 
     🚀 Let's embark on this financial adventure together! Enter your name, choose a stock ticker, and let Ticker Truth empower your financial decisions.
     """
@@ -87,10 +88,10 @@ def validate_ticker_symbol(input_value):
     """
     Validates the provided ticker symbol or company name.
     """
-    df = pd.read_csv('Notebooks/ticker_data.csv')
+    df = create_stock_dataframe()
     input_value = input_value.upper()
 
-        # Check if the input matches the ticker symbol or company name
+    # Check if the input matches the ticker symbol or company name
     if input_value in df["Symbol"].values:
         return input_value
     elif input_value.replace(" ","") in df["Security"].str.replace(" ","").str.upper().values:
@@ -110,16 +111,16 @@ def input_validation_loop():
     while True:
         try:
             # Ask for user input
-            user_input = input("\nEnter a stock ticker symbol or company name of interest: ")
+            user_input = input("\nEnter a S&P 500 stock ticker symbol or company name of interest: ")
 
             # Validate the user input for the ticker symbol or company name
             validated_ticker = validate_ticker_symbol(user_input)
             if validated_ticker:
                 break
             else:
-                print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid ticker symbol or company name.")
+                print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid S&P 500 ticker symbol or company name.")
         except ValueError:
-            print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid ticker symbol or company name.")
+            print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid S&P 500 ticker symbol or company name.")
     return validated_ticker
 
 
@@ -296,6 +297,54 @@ def show_previous_searches(user_data):
         
     else:
         print("No previous searches found. \n")
+
+
+# Stock Ticker Web Scraper
+
+# Import libraries
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+URL = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
+PAGE = requests.get(URL)
+
+# Check if the request was successful (status code 200)
+if PAGE.status_code == 200:
+    html_text = PAGE.text
+else:
+    print(f"Failed to retrieve the webpage. Status code: {PAGE.status_code}")
+    exit()
+
+def create_stock_dataframe():
+    """
+    Creates a CSV file containing the stock ticker data from the Wikipedia page.
+    """
+
+    # Parse the HTML text
+    soup = BeautifulSoup(html_text, 'html.parser')
+    
+    # Extract the table
+    table = soup.find_all('table', class_ = 'wikitable sortable')[0]
+
+    # Extract the table headers
+    stock_titles = table.find_all ('th')
+    stock_titles = [title.text.strip() for title in stock_titles]
+
+    # Create a dataframe to store the data
+    df = pd.DataFrame(columns = stock_titles)
+
+    # Extract the table data
+    column_data = table.find_all('tr')
+
+    for row in column_data[1:]:
+        row_data = row.find_all('td')
+        individual_row_data =  [data.text.strip() for data in row_data]
+    
+        length = len(df)
+        df.loc[length] = individual_row_data
+
+    return df
 
 
 main()
