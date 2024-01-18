@@ -22,7 +22,7 @@ SHEET_NAME = 'Ticker Searches'
 def main():
     """
     Initiates the financial analysis tool, prompting the user for a stock ticker symbol.
-    The user's chosen stock ticker symbol will be stored in the global variable 'user_ticker'.
+    The user's chosen stock ticker symbol will be stored in the global variable 'validated_ticker'.
     """
     print()
     # print("""
@@ -44,13 +44,13 @@ def main():
     user_data = store_user_name(user_name)
     
     # Step 3: User Input Ticker Symbol
-    user_ticker = input_validation_loop()
+    validated_ticker = input_validation_loop()
     
     # Step 4: Send to Google Sheet
-    store_ticker_search_in_sheets(user_data, user_ticker)
+    store_ticker_search_in_sheets(user_data, validated_ticker)
 
     # Step 5: Pass arguments to user menu
-    user_menu(user_data, user_ticker)
+    user_menu(user_data, validated_ticker)
 
 
 def typewriter_effect(text, delay=0.02):
@@ -78,33 +78,36 @@ def store_user_name(name):
     return user_data
 
 
-def validate_ticker_symbol(ticker_symbol):
+def validate_ticker_symbol(input_value):
     """
-    Validates the provided ticker symbol.
+    Validates the provided ticker symbol or company name.
     """
     df = pd.read_csv('Notebooks/ticker_data.csv')
-    try:
-        # Attempt to create a Ticker object to check if the symbol is valid
-        if ticker_symbol in df["Symbol"].values:
-            return True
-    except ValueError:
-        return False
+
+        # Check if the input matches the ticker symbol or company name
+    if input_value.upper() in df["Symbol"].values:
+        return input_value.upper()
+    elif input_value.capitalize() in df["Security"].values:
+        # Get the corresponding ticker symbol for the company name
+        ticker_symbols = df.loc[df["Security"] == input_value.capitalize(), "Symbol"]
+        if len(ticker_symbols) > 0:
+            ticker_symbol = ticker_symbols.iloc[0]
+            return ticker_symbol
+    return None
 
 
-def input_validation_loop ():
+def input_validation_loop():
     while True:
         # Ask for user input
-        user_ticker = input("\nEnter a stock ticker symbol of interest: ")
+        user_input = input("\nEnter a stock ticker symbol or company name of interest: ")
 
-         # Convert user input to all caps
-        user_ticker = user_ticker.upper()
-
-        # Validate the user input for the ticker symbol
-        if validate_ticker_symbol(user_ticker):
+        # Validate the user input for the ticker symbol or company name
+        validated_ticker = validate_ticker_symbol(user_input)
+        if validated_ticker:
             break
         else:
-            print(f"\nThe provided ticker symbol '{user_ticker}' is invalid. Please enter a valid ticker symbol.")
-    return user_ticker
+            print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid ticker symbol or company name.")
+    return validated_ticker
 
 
 def store_ticker_search_in_sheets(user_data, ticker_symbol):
@@ -126,7 +129,7 @@ def store_ticker_search_in_sheets(user_data, ticker_symbol):
         print(f"{ticker_symbol} is already stored for {user_data['name']}.")
 
 
-def user_menu(user_data, user_ticker):
+def user_menu(user_data, validated_ticker):
     """
         Displays a menu for the user to choose from various financial analysis options.
 
@@ -155,21 +158,21 @@ def user_menu(user_data, user_ticker):
         
         else:
             if choice == 1:
-                print(f"\nRetrieving latest stock data for {user_ticker}...\n")
-                fetch_latest_stock_data(user_ticker)
-                back_to_menu(user_data, user_ticker)
+                print(f"\nRetrieving latest stock data for {validated_ticker}...\n")
+                fetch_latest_stock_data(validated_ticker)
+                back_to_menu(user_data, validated_ticker)
                 break
                 
             elif choice == 2:
-                print(f"\nCalculating daily change for {user_ticker}...\n")
-                calculate_daily_change(user_ticker)
-                back_to_menu(user_data, user_ticker)
+                print(f"\nCalculating daily change for {validated_ticker}...\n")
+                calculate_daily_change(validated_ticker)
+                back_to_menu(user_data, validated_ticker)
                 break
 
             elif choice == 3:
-                print(f"\nCalculating 100 day average for {user_ticker}...\n")
-                calculate_100_day_average(user_ticker)
-                back_to_menu(user_data, user_ticker)
+                print(f"\nCalculating 100 day average for {validated_ticker}...\n")
+                calculate_100_day_average(validated_ticker)
+                back_to_menu(user_data, validated_ticker)
                 break
 
             elif choice == 4:
@@ -180,7 +183,7 @@ def user_menu(user_data, user_ticker):
 
             elif choice == 5:
                 show_previous_searches(user_data)
-                back_to_menu(user_data, user_ticker)
+                back_to_menu(user_data, validated_ticker)
                 break
 
             elif choice == 6:
@@ -189,7 +192,7 @@ def user_menu(user_data, user_ticker):
     print("Program terminated!")
 
 
-def back_to_menu(user_data, user_ticker):
+def back_to_menu(user_data, validated_ticker):
     """
     Provides options to the user to either go back to the main menu or quit the program.
     """
@@ -210,19 +213,19 @@ def back_to_menu(user_data, user_ticker):
         
         else:
             if choice == 1:
-                user_menu(user_data, user_ticker)
+                user_menu(user_data, validated_ticker)
             
             elif choice == 2:
                 print("\nQuitting Program...")
         break
             
 
-def fetch_stock_data(user_ticker, duration):
+def fetch_stock_data(validated_ticker, duration):
     """
     Fetches historical stock data for the specified duration.
 
     Parameters:
-    - user_ticker (str): Ticker symbol for the stock.
+    - validated_ticker (str): Ticker symbol for the stock.
     - duration (str): The duration for which historical data should be fetched (e.g., "1y", "1mo").
 
     Returns:
@@ -230,7 +233,7 @@ def fetch_stock_data(user_ticker, duration):
     """
     
     # Fetch data for the provided ticker symbol
-    stock_data = yf.Ticker(user_ticker)
+    stock_data = yf.Ticker(validated_ticker)
 
     # Fetch historical data
     historical_data = stock_data.history(period=duration)
@@ -238,7 +241,7 @@ def fetch_stock_data(user_ticker, duration):
     return historical_data
 
 
-def fetch_latest_stock_data(user_ticker):
+def fetch_latest_stock_data(validated_ticker):
     """
     Fetches and displays the latest stock data for the user's chosen stock ticker symbol.
 
@@ -246,11 +249,11 @@ def fetch_latest_stock_data(user_ticker):
     """
     
     # Set stock data duration to one year
-    historical_data = fetch_stock_data(user_ticker, "1y")
+    historical_data = fetch_stock_data(validated_ticker, "1y")
     print(historical_data.head(1)[["Open", "High", "Low", "Close", "Volume"]])
     
 
-def calculate_daily_change(user_ticker):
+def calculate_daily_change(validated_ticker):
     """
     Calculates and displays the daily change for the user's chosen stock ticker symbol.
 
@@ -258,13 +261,13 @@ def calculate_daily_change(user_ticker):
     """
     
     # Set stock data duration to one month
-    historical_data = fetch_stock_data(user_ticker, "1mo")
+    historical_data = fetch_stock_data(validated_ticker, "1mo")
     historical_data["Daily Change"] = historical_data["Close"] - historical_data["Open"]
     
     print(historical_data[["Open", "Close", "Daily Change"]])
     
 
-def calculate_100_day_average(user_ticker):
+def calculate_100_day_average(validated_ticker):
     """
     Calculates and displays the 100-day moving average for the user's chosen stock ticker symbol.
 
@@ -272,7 +275,7 @@ def calculate_100_day_average(user_ticker):
     """
     
     # Set stock data duration to one year
-    historical_data = fetch_stock_data(user_ticker, "1y")
+    historical_data = fetch_stock_data(validated_ticker, "1y")
     historical_data["100 Day MA"] = historical_data["Close"].rolling(window=100).mean()
 
     print(historical_data.tail(20)[["Close", "100 Day MA"]])
