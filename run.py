@@ -83,13 +83,14 @@ def validate_ticker_symbol(input_value):
     Validates the provided ticker symbol or company name.
     """
     df = pd.read_csv('Notebooks/ticker_data.csv')
+    input_value = input_value.upper()
 
         # Check if the input matches the ticker symbol or company name
-    if input_value.upper() in df["Symbol"].values:
-        return input_value.upper()
-    elif input_value.capitalize() in df["Security"].values:
+    if input_value in df["Symbol"].values:
+        return input_value
+    elif input_value.replace(" ","") in df["Security"].str.replace(" ","").str.upper().values:
         # Get the corresponding ticker symbol for the company name
-        ticker_symbols = df.loc[df["Security"] == input_value.capitalize(), "Symbol"]
+        ticker_symbols = df.loc[df["Security"].str.replace(" ","").str.upper() == input_value.replace(" ",""), "Symbol"]
         if len(ticker_symbols) > 0:
             ticker_symbol = ticker_symbols.iloc[0]
             return ticker_symbol
