@@ -108,7 +108,7 @@ def input_validation_loop():
     """
 
     while True:
-        try
+        try:
             # Ask for user input
             user_input = input("\nEnter a stock ticker symbol or company name of interest: ")
 
