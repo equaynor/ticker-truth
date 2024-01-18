@@ -21,7 +21,7 @@ SHEET_NAME = 'Ticker Searches'
 # User Interaction
 def main():
     """
-    Initiates the financial analysis tool, prompting the user for a stock ticker symbol.
+    Initiates the financial analysis tool, prompting the user for a username and a stock ticker symbol.
     The user's chosen stock ticker symbol will be stored in the global variable 'validated_ticker'.
     """
     print()
@@ -54,6 +54,9 @@ def main():
 
 
 def typewriter_effect(text, delay=0.02):
+    """
+    Prints the provided text with a typewriter effect.
+    """
     for char in text:
         print(char, end='', flush=True)
         time.sleep(delay)
@@ -72,7 +75,9 @@ welcome_message = """
 
 
 def store_user_name(name):
-
+    """
+    Store the user's name in a dictionary.
+    """
     user_data = {"name": name, "ticker_searches": []}
 
     return user_data
@@ -98,22 +103,29 @@ def validate_ticker_symbol(input_value):
 
 
 def input_validation_loop():
-    while True:
-        # Ask for user input
-        user_input = input("\nEnter a stock ticker symbol or company name of interest: ")
+    """
+    Validates the user input for the ticker symbol or company name and loops if invalid.
+    """
 
-        # Validate the user input for the ticker symbol or company name
-        validated_ticker = validate_ticker_symbol(user_input)
-        if validated_ticker:
-            break
-        else:
+    while True:
+        try
+            # Ask for user input
+            user_input = input("\nEnter a stock ticker symbol or company name of interest: ")
+
+            # Validate the user input for the ticker symbol or company name
+            validated_ticker = validate_ticker_symbol(user_input)
+            if validated_ticker:
+                break
+            else:
+                print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid ticker symbol or company name.")
+        except ValueError:
             print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid ticker symbol or company name.")
     return validated_ticker
 
 
 def store_ticker_search_in_sheets(user_data, ticker_symbol):
     """
-    Store the user's ticker search in Google Sheets.
+    Stores username and ticker symbol in Google Sheets.
     """
 
     # Fetch all data from the sheet
@@ -132,11 +144,8 @@ def store_ticker_search_in_sheets(user_data, ticker_symbol):
 
 def user_menu(user_data, validated_ticker):
     """
-        Displays a menu for the user to choose from various financial analysis options.
-
-        The user can choose to view the latest stock data, calculate daily changes, 
-        calculate the 100-day average, enter a new stock ticker symbol, show previous searches, or quit the program.
-        """
+    Displays the user menu and handles user input.
+    """
 
     choice = 0
     while choice != 6:
@@ -195,7 +204,7 @@ def user_menu(user_data, validated_ticker):
 
 def back_to_menu(user_data, validated_ticker):
     """
-    Provides options to the user to either go back to the main menu or quit the program.
+    Displays the back to menu option and handles user input.
     """
     
     choice = 0
@@ -222,15 +231,8 @@ def back_to_menu(user_data, validated_ticker):
             
 
 def fetch_stock_data(validated_ticker, duration):
-    """
-    Fetches historical stock data for the specified duration.
-
-    Parameters:
-    - validated_ticker (str): Ticker symbol for the stock.
-    - duration (str): The duration for which historical data should be fetched (e.g., "1y", "1mo").
-
-    Returns:
-    pd.DataFrame: Historical stock data.
+    """ 
+    Fetches and returns the stock data for the user's chosen stock ticker symbol.
     """
     
     # Fetch data for the provided ticker symbol
@@ -245,8 +247,6 @@ def fetch_stock_data(validated_ticker, duration):
 def fetch_latest_stock_data(validated_ticker):
     """
     Fetches and displays the latest stock data for the user's chosen stock ticker symbol.
-
-    Displays the Open, High, Low, Close, and Volume of the latest available stock data.
     """
     
     # Set stock data duration to one year
@@ -257,8 +257,6 @@ def fetch_latest_stock_data(validated_ticker):
 def calculate_daily_change(validated_ticker):
     """
     Calculates and displays the daily change for the user's chosen stock ticker symbol.
-
-    Calculates the difference between the Close and Open prices for each day in the last month.
     """
     
     # Set stock data duration to one month
@@ -270,9 +268,7 @@ def calculate_daily_change(validated_ticker):
 
 def calculate_100_day_average(validated_ticker):
     """
-    Calculates and displays the 100-day moving average for the user's chosen stock ticker symbol.
-
-    Calculates the 100-day moving average based on the closing prices of the last year's data.
+    Calculates and displays the 100 day moving average for the user's chosen stock ticker symbol.
     """
     
     # Set stock data duration to one year
@@ -283,6 +279,9 @@ def calculate_100_day_average(validated_ticker):
 
 
 def show_previous_searches(user_data):
+    """
+    Displays the previous searches for the user.
+    """
 
     # Fetch all data from the sheet
     all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
