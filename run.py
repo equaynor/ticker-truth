@@ -116,6 +116,7 @@ def input_validation_loop():
             # Validate the user input for the ticker symbol or company name
             validated_ticker = validate_ticker_symbol(user_input)
             if validated_ticker:
+                print(f"{user_input} validated. Storing ticker symbol...")
                 break
             else:
                 print(f"\nThe provided input '{user_input}' is invalid. Please enter a valid S&P 500 ticker symbol or company name.")
