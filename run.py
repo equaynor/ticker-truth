@@ -305,7 +305,6 @@ def show_previous_searches(user_data):
 # Import libraries
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
 
 URL = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
 PAGE = requests.get(URL)
