@@ -47,4 +47,16 @@ Tapping into the vast realm of financial data, Ticker Truth empowers users to an
 - **Duration Calculation:** Calculate and display a sensible duration for each analysis.
 - **Search History:** Store and display the user's search history.
 
+#### User Stories
+
+- As a user, I want to be able to enter and save my username.
+- As a user, I want to be able to enter a stock ticker symbol or company name.
+- As a user, I want to be able to get the latest stock data for that ticker symbol
+- As a user, I want to be able to calculate the daily change for a stock ticker symbol.
+- As a user, I want to be able to calculate the 100 day moving average for a stock ticker symbol.
+- As a user, I want to be able to see a list of my previous searches.
+- As a user, I want to be able to enter a new stock ticker symbol and have it added to my list of previous searches.
+- As a user, I want to be able to go back to the user menu.
+- As a user, I want to be able to quit the program at any time.
+
 
