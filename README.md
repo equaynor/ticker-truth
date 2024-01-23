@@ -28,3 +28,6 @@
   - [Tools](#tools)
   - [Acknowledgements](#acknowledgements)
 
+## Overview
+
+Tapping into the vast realm of financial data, Ticker Truth empowers users to analyze stock ticker symbols and gain valuable insights. The tool's robust features include the ability to input and validate stock ticker symbols, view detailed financial data tables, and receive real-time analysis results.
