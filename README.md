@@ -59,4 +59,15 @@ Tapping into the vast realm of financial data, Ticker Truth empowers users to an
 - As a user, I want to be able to go back to the user menu.
 - As a user, I want to be able to quit the program at any time.
 
+### Scope
+
+Ticker Truth covers a broad spectrum of features to meet users' analytical needs:
+
+- **Financial Data Display:** Present detailed financial data tables for thorough analysis.
+- **User Input and Validation:** Allow users to input stock ticker symbols or company names and validate them.
+- **Warning System:** Implement a warning system for invalid inputs to enhance user accuracy.
+- **Analysis Results:** Calculate and display insightful results based on the inputted stock.
+- **Google Sheets Integration:** Store each user's search history in a Google Sheet.
+- **History Overview:** Provide a list of the user'sprevious searches for quick reference.
+
 
