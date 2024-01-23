@@ -74,3 +74,8 @@ Ticker Truth covers a broad spectrum of features to meet users' analytical needs
 
 Ticker Truth uses a mock terminal, leveraging the Code Institute Python Template. The entire code was written in Python and resides in the `run.py` file, which is what Heroku will run when the program is used.
 
+### Flowcharts
+
+The Flowchart for my program was created using LucidChart and it visually represents how the system works.
+![Flowchart](assets/images/ticker-truth_flowchart.jpeg)
+
