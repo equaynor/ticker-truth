@@ -70,4 +70,7 @@ Ticker Truth covers a broad spectrum of features to meet users' analytical needs
 - **Google Sheets Integration:** Store each user's search history in a Google Sheet.
 - **History Overview:** Provide a list of the user'sprevious searches for quick reference.
 
+### Structure
+
+Ticker Truth uses a mock terminal, leveraging the Code Institute Python Template. The entire code was written in Python and resides in the `run.py` file, which is what Heroku will run when the program is used.
 
