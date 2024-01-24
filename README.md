@@ -123,3 +123,24 @@ The user interface is designed to be engaging and informative. Key pages include
   - A dedicated section showcases a history of previous user searches.
   ![Previous Searches](assets/images/previous_searches.png)
 
+## Features
+
+### Existing Features
+
+Ticker Truth boasts several features enhancing the user experience:
+
+- **Real-time Financial Data Display:** Dynamic tables showcasing current stock information.
+- **Input Validation:** A robust system to validate and guide users' stock input.
+- **Warning System:** Informative warnings for inaccurate inputs, promoting precision.
+- **Results Presentation:** Clear and concise display of latest stock prices, daily changes, and moving averages.
+- **Google Sheets Integration:** Seamless integration with Google Sheets for efficient user data storage.
+- **History Overview:** A convenient history section for reviewing past stock ticker searches.
+
+### Future Features
+
+To elevate Ticker Truth further, future features could include:
+
+- **Enhanced User Interface:** Develop a more user-friendly interface for a smoother analysis process by providing different colors and table boarders.
+- **Algorithm Refinement:** Optimize the algorithm for calculating estimated analysis duration.
+- **Portfolio Management:** Introduce a robust Portfolio Management feature, allowing users to efficiently track, analyze, and manage their investment portfolios. 
+- **Expanded Data Visualization:** Enhance data visualization capabilities, allowing users to interpret financial data more effectively. Implement interactive charts, graphs, and visual representations to supplement the analysis results.
