@@ -264,3 +264,10 @@ A suite of tools facilitated the development and validation process:
 - [PEP8 Validator](https://pep8ci.herokuapp.com/): Python code validation.
 - [Heroku](https://dashboard.heroku.com/): Deployment platform.
 - [LucidChart](https://www.lucidchart.com/): Flowchart creation tool.
+
+## Acknowledgements
+
+- Code Institute for all the material and support offered
+- My mentor Medale Oluwafemi for all the great tips and helpful feedback.
+- My wife for all the support and encouragement.
+- British computer scientist Tim Berners-Lee for his work on the World Wide Web and enabling me to remotely learn how to code.
