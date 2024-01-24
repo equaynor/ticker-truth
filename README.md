@@ -144,3 +144,35 @@ To elevate Ticker Truth further, future features could include:
 - **Algorithm Refinement:** Optimize the algorithm for calculating estimated analysis duration.
 - **Portfolio Management:** Introduce a robust Portfolio Management feature, allowing users to efficiently track, analyze, and manage their investment portfolios. 
 - **Expanded Data Visualization:** Enhance data visualization capabilities, allowing users to interpret financial data more effectively. Implement interactive charts, graphs, and visual representations to supplement the analysis results.
+
+## BUGS OR ERRORS
+
+Throughout the development and testing of Ticker Truth, several bugs were identified and resolved to ensure a seamless user experience:
+
+1. **Yahoo Finance API Deprecation:**
+   - *Issue:* The yahoo_fin library resulted in error messages as the Yahoo Finance API was discontinued since 2017.
+   - *Solution:* Transitioned to using Alpha Vantage for API calls to fetch financial data.
+
+2. **API Request Limitation with Alpha Vantage:**
+   - *Issue:* Alpha Vantage restricts API requests to 25 per day.
+   - *Solution:* Adopted the yfinance library as an alternative, which uses web scraping to fetch financial data.
+
+3. **Quit Option Not Functioning Properly:**
+   - *Issue:* The "Quit" option in the user menu did not work as expected, preventing a return to the main menu.
+   - *Solution:* Added necessary break statements in the user_menu() function to ensure a smooth transition between menu options.
+
+4. **Daily Change Function Displays Single Row:**
+   - *Issue:* The daily change function showed only one row of data.
+   - *Solution:* Corrected the historical data retrieval by using "period='1mo'" instead of "period='1m'" for a broader time range.
+
+5. **UnboundLocalError - user_ticker Reference:**
+   - *Issue:* UnboundLocalError occurred due to referencing 'user_ticker' before assignment.
+   - *Solution:* Ensured that 'user_ticker' is properly integrated into each function, resolving the UnboundLocalError.
+
+6. **show_previous_searches() Display Issue:**
+   - *Issue:* The show_previous_searches() function displayed searches appended to the current list only.
+   - *Solution:* Modified the function to append searches directly in Google Sheets and have function check there.
+
+7. **Heroku App Analysis Functionality Issue:**
+   - *Issue:* Analysis functions were not functioning properly when running the app on Heroku.
+   - *Solution:* Updated the yfinance and requests modules to their latest versions within the requirements.txt file to resolve compatibility issues on the Heroku platform.
