@@ -176,3 +176,26 @@ Throughout the development and testing of Ticker Truth, several bugs were identi
 7. **Heroku App Analysis Functionality Issue:**
    - *Issue:* Analysis functions were not functioning properly when running the app on Heroku.
    - *Solution:* Updated the yfinance and requests modules to their latest versions within the requirements.txt file to resolve compatibility issues on the Heroku platform.
+
+
+## Testing
+
+A comprehensive testing document, available in [TESTING.md](TESTING.md), outlines various test cases and results.
+
+## MODULES IMPORTED
+
+Ticker Truth leverages the following Python modules for enhanced functionality:
+
+- **cachetools:** A library for caching Python function calls.
+- **yfinance:** Provides access to historical market data from Yahoo Finance.
+- **pandas:** Offers data manipulation and analysis tools.
+- **beautifulsoup4:** A library for web scraping purposes.
+- **google-auth-oauthlib:** Handles OAuth2 authentication for Google APIs.
+- **google-auth:** Implements Google's authentication system.
+- **gspread:** Enables interaction with Google Sheets.
+- **oauthlib:** A generic, reusable Python OAuth library.
+- **pyasn1:** Provides support for Abstract Syntax Notation One (ASN.1) data encoding.
+- **pyasn1-modules:** Additional modules for pyasn1.
+- **requests:** Allows sending HTTP requests.
+- **requests-oauthlib:** Handles OAuth 1 and OAuth 2 authentication for requests.
+- **rsa:** A pure-Python RSA implementation.
