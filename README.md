@@ -254,3 +254,13 @@ Additional resources and references include:
 - [AlphaVantage Documentation](https://www.alphavantage.co/documentation/#dailyadj): Documentation for AlphaVantage API.
 - [W3Schools](https://www.w3schools.com/): Educational resource for looking up methods etc.
 - [Stack Overflow](https://stackoverflow.com/): Answering multiple minor questions.
+
+## Tools
+
+A suite of tools facilitated the development and validation process:
+
+- [Visual Studio Code](https://code.visualstudio.com/): Integrated development environment (IDE) used for coding and project management.
+- [GitHub](https://github.com/): Repository hosting for the project.
+- [PEP8 Validator](https://pep8ci.herokuapp.com/): Python code validation.
+- [Heroku](https://dashboard.heroku.com/): Deployment platform.
+- [LucidChart](https://www.lucidchart.com/): Flowchart creation tool.
