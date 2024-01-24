@@ -79,3 +79,47 @@ Ticker Truth uses a mock terminal, leveraging the Code Institute Python Template
 The Flowchart for my program was created using LucidChart and it visually represents how the system works.
 ![Flowchart](assets/images/ticker-truth_flowchart.jpeg)
 
+### Surface/Design
+
+The user interface is designed to be engaging and informative. Key pages include:
+
+#### **User Input Section:**
+* **Username Input:**
+  - A welcoming prompt invites users to input a unique username for a personalized experience.
+  - Usernames are displayed prominently on the interface, creating a sense of personalization.
+  ![Welcome Message](assets/images/welcome_username.png)
+
+* **Stock Input:**
+  - Users can input S&P 500 stock ticker symbols or company names.
+  ![Stock Input](assets/images/ticker_input.png)
+
+#### **Navigation and User Interaction:**
+* **Menu Options:**
+  - Users are presented with a menu of options for stock analysis features.
+  - Each option is clearly labeled, allowing users to navigate effortlessly.
+  ![User Menu](assets/images/user_menu.png)
+
+* **User Prompts:**
+  - Throughout the tool, users receive clear prompts and instructions on available actions.
+  - Feedback messages provide information on successful actions or guide users in case of errors.
+  ![Error Message](assets/images/error_msg.png)
+
+#### **Stock Analysis Display:**
+* **Latest Stock Price:**
+  - The latest stock price is prominently displayed, including open, low, high, close prices and volume.
+  - Clear formatting ensures visibility and readability of the stock price.
+  ![Latest Data](assets/images/latest_data.png)
+
+* **Daily Changes:**
+  - Daily changes in stock prices are presented in a visually informative manner.
+  ![Daily Changes](assets/images/daily_changes.png)
+
+* **100-Day Moving Average:**
+  - The 100-day moving average is calculated to aid users in understanding stock trends.
+  ![100 Day MA](assets/images/100_day_ma.png)
+
+#### **Previous Searches Section:**
+* **Display of Previous Searches:**
+  - A dedicated section showcases a history of previous user searches.
+  ![Previous Searches](assets/images/previous_searches.png)
+
