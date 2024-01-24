@@ -44,6 +44,7 @@ def main():
 
     # Step 1: User Input Name
     user_name = input("Enter your name: ")
+    print(f"\nWelcome, {user_name}!")
 
     # Step 2: Name Storage
     user_data = store_user_name(user_name)
