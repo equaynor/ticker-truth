@@ -201,7 +201,7 @@ def user_menu(user_data, val_ticker):
                 break
 
             elif choice == 3:
-                print(f"\nCalculating 100 day average for {val_ticker}...\n")
+                print(f"\nCalculating 100 day m.a. for {val_ticker}...\n")
                 calculate_100_day_average(val_ticker)
                 back_to_menu(user_data, val_ticker)
                 break
