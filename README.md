@@ -112,7 +112,7 @@ The user interface is designed to be engaging and informative. Key pages include
 
 * **Daily Changes:**
   - Daily changes in stock prices are presented in a visually informative manner.
-  ![Daily Changes](assets/images/daily_changes.png)
+  ![Daily Changes](assets/images/daily_change.png)
 
 * **100-Day Moving Average:**
   - The 100-day moving average is calculated to aid users in understanding stock trends.
