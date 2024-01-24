@@ -173,7 +173,7 @@ def user_menu(user_data, val_ticker):
         print("\nPlease choose an option...")
         print("1. Show latest stock data")
         print("2. Show daily change")
-        print("3. Show 100 day average price")
+        print("3. Show 100 day moving average prices")
         print("4. Enter a new stock ticker symbol")
         print("5. Show previous searches")
         print("6. Quit \n")
