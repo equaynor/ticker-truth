@@ -234,3 +234,23 @@ For local development, cloning the repository involves the following steps:
 
 - Obtaining the Git URL from the GitHub repository.
 - Using Git Bash to clone the repository with the command `git clone [copied URL]`.
+
+## CREDITS
+
+I would like to acknowledge external contributions and learning resources:
+
+- [Menu Tutorial](https://www.youtube.com/watch?v=kTaqR1WyT8A): YouTube tutorial for creating interactive menus.
+- [yfinance Tutorial](https://medium.com/@kasperjuunge/yfinance-10-ways-to-get-stock-data-with-python-6677f49e8282): Tutorial on using yfinance for stock data.
+- [Python for Finance](https://www.youtube.com/watch?v=dUpyC40cF6Q&list=PLUaB-1hjhk8GZOuylZqLz-Qt9RIdZZMBE): YouTube series on Python for finance.
+- [Stock Price Prediction Tutorial](https://www.youtube.com/watch?v=8dTpNajxaH0&t=1332s): Tutorial on stock price prediction.
+- [Beautiful Soup Pagination](https://medium.com/quick-code/how-to-get-the-next-page-on-beautiful-soup-85b743750df4): Guide on handling pagination with Beautiful Soup.
+- [List of S&P 500 Companies](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies): Wikipedia page listing S&P 500 companies.
+- Code Institute Love Sandwiches Tutorial: Adapted and extended code for Google Sheets integration.
+
+
+Additional resources and references include:
+
+- [AlgoTrading101](https://algotrading101.com/learn/yahoo-finance-api-guide/): Guide on using Yahoo Finance API.
+- [AlphaVantage Documentation](https://www.alphavantage.co/documentation/#dailyadj): Documentation for AlphaVantage API.
+- [W3Schools](https://www.w3schools.com/): Educational resource for looking up methods etc.
+- [Stack Overflow](https://stackoverflow.com/): Answering multiple minor questions.
