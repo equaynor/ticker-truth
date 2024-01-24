@@ -199,3 +199,38 @@ Ticker Truth leverages the following Python modules for enhanced functionality:
 - **requests:** Allows sending HTTP requests.
 - **requests-oauthlib:** Handles OAuth 1 and OAuth 2 authentication for requests.
 - **rsa:** A pure-Python RSA implementation.
+
+## Deployment
+
+### Creating the Website
+
+Ticker Truth was developed using the [Code Institute Python Essentials Template](https://github.com/Code-Institute-Org/python-essentials-template).
+The following steps were taken to create the website:
+- Click the <i>Use this template</i> button
+- A New Repository page will appear, write a Repository name and a short description and press <i>Create repository from template</i>
+- Press the green Gitpod button to create your project workspace and start developing your website<br></br>
+
+### Deploying on Heroku
+
+Heroku served as the deployment platform for Ticker Truth:
+
+- **Heroku Account:** Created an account and logged into [Heroku](https://id.heroku.com/login).
+- **App Creation:** Created a new app with a unique name and specified region.
+- **Config Vars Setup:** Configured necessary environment variables, including the port.
+- **Buildpacks Addition:** Added buildpacks for Python and NodeJs.
+- **GitHub Integration:** Linked the GitHub repository for seamless automatic deploys.
+- **Deployment:** Completed the deployment process, resulting in a live app accessible through the provided link.
+
+### Fork the Repository
+
+To create a personalized copy of the repository:
+
+- Visit the [GitHub Repository](https://github.com/equaynor/ticker-truth).
+- Click the "Fork" button to create a forked version in my GitHub account.
+
+### Clone the Repository
+
+For local development, cloning the repository involves the following steps:
+
+- Obtaining the Git URL from the GitHub repository.
+- Using Git Bash to clone the repository with the command `git clone [copied URL]`.
