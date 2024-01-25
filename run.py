@@ -5,6 +5,7 @@ import gspread
 from google.oauth2.service_account import Credentials
 import requests
 from bs4 import BeautifulSoup
+from termcolor import colored
 
 
 SCOPE = [
@@ -133,18 +134,21 @@ def input_validation_loop():
             # Validate the user input for the ticker symbol or company name
             validated_ticker = validate_ticker_symbol(user_input)
             if validated_ticker:
-                print(f"{user_input} validated. Storing ticker symbol...")
+                print(f"\n'{user_input}' " + colored("validated. ", "green") +
+                      "Storing ticker symbol...")
                 break
             else:
-                print(f"\nThe provided input '{user_input}' is invalid.")
+                print(colored(f"\nThe provided input ", "red") +
+                      f"'{user_input}' " + colored("is invalid.", "red"))
                 print("Please enter a valid S&P 500 ticker symbol or company.")
         except ValueError:
-            print(f"\nThe provided input '{user_input}' is invalid.")
+            print(colored(f"\nThe provided input ", "red") +
+                  f"'{user_input}' " + colored("is invalid.", "red"))
             print("Please enter a valid S&P 500 ticker symbol or company.")
     return validated_ticker
 
 
-def store_ticker_search_in_sheets(ud, tic_sym):
+def store_ticker_search_in_sheets(ud, ticker):
     """
     Stores username and ticker symbol in Google Sheets.
     """
@@ -153,14 +157,19 @@ def store_ticker_search_in_sheets(ud, tic_sym):
     all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     # Search for ticker symbol in the local list or the Google Sheets
-    if not any(tic_sym == row[1] for row in all_d[1:] if row[0] == ud['name']):
+    if not any(ticker == row[1] for row in all_d[1:] if row[0] == ud['name']):
 
         # Append the data to the Google Sheets
-        SHEET.worksheet(SHEET_NAME).append_row([ud['name'], tic_sym])
+        SHEET.worksheet(SHEET_NAME).append_row([ud['name'], ticker])
 
-        print(f"Successfully stored {tic_sym} for {ud['name']}.")
+        print(colored("Successfully stored ", "green") +
+              f"{ticker} " + colored("for ", "green") +
+              f"{ud['name']}" + colored(".", "green"))
+
+        # Store the ticker symbol in the local list
+        ud['ticker_searches'].append(ticker)
     else:
-        print(f"{tic_sym} is already stored for {ud['name']}.")
+        print(f"{ticker} is already stored for {ud['name']}.")
 
 
 def user_menu(user_data, val_ticker):
