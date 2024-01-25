@@ -25,6 +25,9 @@ BOLD = "\033[1m"
 # ANSI escape code to reset text formatting
 RESET = "\033[0m"
 
+USER_MENU = [1,2,3,4,5,6]
+BACK_TO_MENU = [1,2]
+
 
 # Financial Analysis Tool
 
@@ -187,6 +190,7 @@ def user_menu(user_data, val_ticker):
     choice = 0
     while choice != 6:
         print(BOLD + "\nPlease choose an option..." + RESET)
+        time.sleep(0.5)
         print("1. Show latest stock data")
         print("2. Show daily change")
         print("3. Show 100 day moving average prices")
@@ -194,21 +198,11 @@ def user_menu(user_data, val_ticker):
         print("5. Show previous searches")
         print("6. Quit \n")
 
-        try:
-            choice = int(input(BOLD +
-                               "Please choose a number between 1 and 6: " +
-                               RESET))
+        choice = int(input(BOLD +
+                           "Please choose a number between 1 and 6: " +
+                           RESET))
+        if menu_option_validation(choice, USER_MENU):
 
-            if choice < 1 or choice > 6:
-                raise ValueError
-
-        except ValueError:
-            print(colored("Invalid input.", "red"))
-            choice
-            while choice < 1 or choice > 6:
-                choice
-
-        else:
             if choice == 1:
                 print(f"\nRetrieving latest stock data for {val_ticker}...\n")
                 fetch_latest_stock_data(val_ticker)
@@ -239,8 +233,10 @@ def user_menu(user_data, val_ticker):
                 break
 
             elif choice == 6:
-                print("\n Quitting Program...")
-        break
+                print("\nQuitting Program...")
+                time.sleep(1)
+                break
+        continue
     print("Program terminated!")
 
 
@@ -254,24 +250,44 @@ def back_to_menu(user_data, val_ticker):
         print("\n1. Back to menu")
         print("2. Quit\n")
 
-        try:
-            choice = int(input(BOLD +
-                               "Please enter number 1 or number 2: "+
-                               RESET))
-
-            if choice < 1 or choice > 2:
-                raise ValueError
-
-        except ValueError:
-            print("Invalid input. Please choose number 1 or number 2.")
-
-        else:
+        choice = int(input(BOLD +
+                           "Please choose a number between 1 and 2: " +
+                           RESET))
+        if menu_option_validation(choice, BACK_TO_MENU):
             if choice == 1:
+                time.sleep(1)
                 user_menu(user_data, val_ticker)
 
             elif choice == 2:
                 print("\nQuitting Program...")
+                time.sleep(1)
+                break
         break
+
+
+def menu_option_validation(option, list_to_check):
+    """
+    Validates the user menu option input.
+    """
+
+    try:
+        option = int(option)
+    except ValueError:
+                print("\n" + colored("Invalid data: ", "red") +
+                      "Wrong numbers format, please try again.\n")
+                return False
+
+    try:
+        if option not in list_to_check:
+            raise ValueError(
+                "Value not recognised."
+            )
+    except:
+        print("\n" + colored("Invalid data: ", "red") +
+              f"Please choose a number between 1 and {(len(list_to_check))}.\n")
+        time.sleep(1)
+        return False
+    return True
 
 
 def fetch_stock_data(validated_ticker, duration):
