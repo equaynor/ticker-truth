@@ -25,58 +25,8 @@ BOLD = "\033[1m"
 # ANSI escape code to reset text formatting
 RESET = "\033[0m"
 
-USER_MENU = [1,2,3,4,5,6]
-BACK_TO_MENU = [1,2]
-
-
-# Financial Analysis Tool
-
-def main():
-    """
-    Initiates the financial analysis tool,
-    prompting the user for a username and a stock ticker symbol.
-    The user's chosen stock ticker symbol will be stored
-    in the global variable 'validated_ticker'.
-    """
-    print()
-    print(BOLD + """
-         *************************************************
-        **  Welcome to Ticker Truth - Your Finance Ally"  **
-         *************************************************
-          """ + RESET)
-    typewriter_effect(welcome_message)
-    print(BOLD + """
-         *************************************************
-        **                Happy Investing!               **
-         *************************************************
-        """ + RESET)
-
-    # Step 1: User Input Name
-    user_name = input(BOLD + "Enter your name: ")
-    print(f"\nWelcome, {user_name}!" + RESET)
-
-    # Step 2: Name Storage
-    user_data = store_user_name(user_name)
-
-    # Step 3: User Input Ticker Symbol
-    validated_ticker = input_validation_loop()
-
-    # Step 4: Send to Google Sheet
-    store_ticker_search_in_sheets(user_data, validated_ticker)
-
-    # Step 5: Pass arguments to user menu
-    user_menu(user_data, validated_ticker)
-
-
-def typewriter_effect(text, delay=0.02):
-    """
-    Prints the provided text with a typewriter effect.
-    """
-    for char in text:
-        print(char, end='', flush=True)
-        time.sleep(delay)
-    print()
-
+USER_MENU = [1, 2, 3, 4, 5, 6]
+BACK_TO_MENU = [1, 2]
 
 welcome_message = """
     Are you ready to unlock the secrets of the stock market?
@@ -98,14 +48,17 @@ welcome_message = """
     """
 
 
-def store_user_name(name):
+def typewriter_effect(text, delay=0.02):
     """
-    Store the user's name in a dictionary.
+    Prints the provided text with a typewriter effect.
     """
-    user_data = {"name": name, "ticker_searches": []}
+    for char in text:
+        print(char, end='', flush=True)
+        time.sleep(delay)
+    print()
 
-    return user_data
 
+# VALIDATION FUNCTIONS
 
 def validate_ticker_symbol(input_value):
     """
@@ -158,6 +111,45 @@ def input_validation_loop():
     return validated_ticker
 
 
+def menu_option_validation(option_value, list_to_check):
+    """
+    Validates the user menu option input.
+    """
+
+    # Check if option value can be turned into int.
+    try:
+        option = int(option_value)
+    except ValueError:
+        print("\n" + colored("Invalid data: ", "red") +
+              "Wrong numbers format, please try again.\n")
+        return False
+
+    # Checks if option value can't be found in list provided
+    try:
+        if option_value not in list_to_check:
+            raise ValueError(
+                "Value not recognised."
+            )
+    except ValueError:
+        print("\n" + colored("Invalid data: ", "red") +
+              "Please choose a number between 1 and " +
+              f"{(len(list_to_check))}.\n")
+        time.sleep(1)
+        return False
+    return True
+
+
+# StORING AND RETRIEVING USER DATA FUNCTIONS
+
+def store_user_name(name):
+    """
+    Store the user's name in a dictionary.
+    """
+    user_data = {"name": name, "ticker_searches": []}
+
+    return user_data
+
+
 def store_ticker_search_in_sheets(ud, ticker):
     """
     Stores username and ticker symbol in Google Sheets.
@@ -182,6 +174,28 @@ def store_ticker_search_in_sheets(ud, ticker):
         print(f"{ticker} is already stored for {ud['name']}.")
 
 
+def show_previous_searches(ud):
+    """
+    Displays the previous searches for the user.
+    """
+
+    # Fetch all data from the sheet
+    all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
+
+    print("\nRetrieving precious searches...\n")
+    print(f"Previous searches for '{ud['name']}':")
+
+    if len(all_d) > 1:  # Check if there are more rows than just the header
+        prev_searches = (row[1] for row in all_d[1:] if row[0] == ud['name'])
+        for ticker_symbol in prev_searches:
+            print(ticker_symbol)
+
+    else:
+        print(colored("No previous searches found. \n", "red"))
+
+
+# MENU FUNCTIONS
+
 def user_menu(user_data, val_ticker):
     """
     Displays the user menu and handles user input.
@@ -205,18 +219,21 @@ def user_menu(user_data, val_ticker):
 
             if choice == 1:
                 print(f"\nRetrieving latest stock data for {val_ticker}...\n")
+                time.sleep(1)
                 fetch_latest_stock_data(val_ticker)
                 back_to_menu(user_data, val_ticker)
                 break
 
             elif choice == 2:
                 print(f"\nCalculating daily change for {val_ticker}...\n")
+                time.sleep(1)
                 calculate_daily_change(val_ticker)
                 back_to_menu(user_data, val_ticker)
                 break
 
             elif choice == 3:
                 print(f"\nCalculating 100 day m.a. for {val_ticker}...\n")
+                time.sleep(1)
                 calculate_100_day_average(val_ticker)
                 back_to_menu(user_data, val_ticker)
                 break
@@ -226,6 +243,7 @@ def user_menu(user_data, val_ticker):
                 print()
                 store_ticker_search_in_sheets(user_data, new_ticker_symbol)
                 user_menu(user_data, new_ticker_symbol)
+                break
 
             elif choice == 5:
                 show_previous_searches(user_data)
@@ -235,9 +253,9 @@ def user_menu(user_data, val_ticker):
             elif choice == 6:
                 print("\nQuitting Program...")
                 time.sleep(1)
+                print("Program terminated!")
                 break
-        continue
-    print("Program terminated!")
+        break
 
 
 def back_to_menu(user_data, val_ticker):
@@ -261,34 +279,12 @@ def back_to_menu(user_data, val_ticker):
             elif choice == 2:
                 print("\nQuitting Program...")
                 time.sleep(1)
+                print("Program terminated!")
                 break
         break
 
 
-def menu_option_validation(option, list_to_check):
-    """
-    Validates the user menu option input.
-    """
-
-    try:
-        option = int(option)
-    except ValueError:
-                print("\n" + colored("Invalid data: ", "red") +
-                      "Wrong numbers format, please try again.\n")
-                return False
-
-    try:
-        if option not in list_to_check:
-            raise ValueError(
-                "Value not recognised."
-            )
-    except:
-        print("\n" + colored("Invalid data: ", "red") +
-              f"Please choose a number between 1 and {(len(list_to_check))}.\n")
-        time.sleep(1)
-        return False
-    return True
-
+# ANALYSIS FUNCTIONS
 
 def fetch_stock_data(validated_ticker, duration):
     """
@@ -338,27 +334,7 @@ def calculate_100_day_average(validated_ticker):
     print(his_data.tail(20)[["Close", "100 Day MA"]])
 
 
-def show_previous_searches(ud):
-    """
-    Displays the previous searches for the user.
-    """
-
-    # Fetch all data from the sheet
-    all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
-
-    print("\nRetrieving precious searches...\n")
-    print(f"Previous searches for '{ud['name']}':")
-
-    if len(all_d) > 1:  # Check if there are more rows than just the header
-        prev_searches = (row[1] for row in all_d[1:] if row[0] == ud['name'])
-        for ticker_symbol in prev_searches:
-            print(ticker_symbol)
-
-    else:
-        print(colored("No previous searches found. \n", "red"))
-
-
-# Stock Ticker Web Scraper
+# STOCK TICKER WEB SCRAPER
 
 
 URL = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
@@ -401,6 +377,45 @@ def create_stock_dataframe():
         df.loc[length] = individual_row_data
 
     return df
+
+
+# MAIN FUNCTION
+
+def main():
+    """
+    Initiates the financial analysis tool,
+    prompting the user for a username and a stock ticker symbol.
+    The user's chosen stock ticker symbol will be stored
+    in the global variable 'validated_ticker'.
+    """
+    print()
+    print(BOLD + """
+         *************************************************
+        **  Welcome to Ticker Truth - Your Finance Ally"  **
+         *************************************************
+          """ + RESET)
+    typewriter_effect(welcome_message)
+    print(BOLD + """
+         *************************************************
+        **                Happy Investing!               **
+         *************************************************
+        """ + RESET)
+
+    # Step 1: User Input Name
+    user_name = input(BOLD + "Enter your name: ")
+    print(f"\nWelcome, {user_name}!" + RESET)
+
+    # Step 2: Name Storage
+    user_data = store_user_name(user_name)
+
+    # Step 3: User Input Ticker Symbol
+    validated_ticker = input_validation_loop()
+
+    # Step 4: Send to Google Sheet
+    store_ticker_search_in_sheets(user_data, validated_ticker)
+
+    # Step 5: Pass arguments to user menu
+    user_menu(user_data, validated_ticker)
 
 
 main()
