@@ -317,7 +317,7 @@ def show_previous_searches(ud):
     all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     print("\nRetrieving precious searches...\n")
-    print(f"Previous searches for {ud['name']}:")
+    print(f"Previous searches for '{ud['name']}':")
 
     if len(all_d) > 1:  # Check if there are more rows than just the header
         prev_searches = (row[1] for row in all_d[1:] if row[0] == ud['name'])
@@ -325,7 +325,7 @@ def show_previous_searches(ud):
             print(ticker_symbol)
 
     else:
-        print("No previous searches found. \n")
+        print(colored("No previous searches found. \n", "red"))
 
 
 # Stock Ticker Web Scraper
