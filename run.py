@@ -20,6 +20,11 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('ticker-history')
 SHEET_NAME = 'Ticker Searches'
 
+# ANSI escape code for bold text
+BOLD = "\033[1m"
+# ANSI escape code to reset text formatting
+RESET = "\033[0m"
+
 
 # Financial Analysis Tool
 
@@ -31,21 +36,21 @@ def main():
     in the global variable 'validated_ticker'.
     """
     print()
-    print("""
+    print(BOLD + """
          *************************************************
-        **  Welcome to Ticker Truth - Your Finance Ally  **
+        **  Welcome to Ticker Truth - Your Finance Ally"  **
          *************************************************
-          """)
+          """ + RESET)
     typewriter_effect(welcome_message)
-    print("""
+    print(BOLD + """
          *************************************************
         **                Happy Investing!               **
          *************************************************
-        """)
+        """ + RESET)
 
     # Step 1: User Input Name
-    user_name = input("Enter your name: ")
-    print(f"\nWelcome, {user_name}!")
+    user_name = input(BOLD + "Enter your name: ")
+    print(f"\nWelcome, {user_name}!" + RESET)
 
     # Step 2: Name Storage
     user_data = store_user_name(user_name)
@@ -129,7 +134,9 @@ def input_validation_loop():
     while True:
         try:
             # Ask for user input
-            user_input = input("\nEnter a S&P 500 ticker symbol or company: ")
+            user_input = input(BOLD +
+                               "\nEnter a S&P 500 ticker symbol or company: " +
+                               RESET)
 
             # Validate the user input for the ticker symbol or company name
             validated_ticker = validate_ticker_symbol(user_input)
@@ -179,7 +186,7 @@ def user_menu(user_data, val_ticker):
 
     choice = 0
     while choice != 6:
-        print("\nPlease choose an option...")
+        print(BOLD + "\nPlease choose an option..." + RESET)
         print("1. Show latest stock data")
         print("2. Show daily change")
         print("3. Show 100 day moving average prices")
@@ -188,13 +195,18 @@ def user_menu(user_data, val_ticker):
         print("6. Quit \n")
 
         try:
-            choice = int(input("Please choose a number between 1 and 6: "))
+            choice = int(input(BOLD +
+                               "Please choose a number between 1 and 6: " +
+                               RESET))
 
             if choice < 1 or choice > 6:
                 raise ValueError
 
         except ValueError:
-            print("Please choose a number between 1 and 6.")
+            print(colored("Invalid input.", "red"))
+            choice
+            while choice < 1 or choice > 6:
+                choice
 
         else:
             if choice == 1:
@@ -243,7 +255,9 @@ def back_to_menu(user_data, val_ticker):
         print("2. Quit\n")
 
         try:
-            choice = int(input("Please enter number 1 or number 2: "))
+            choice = int(input(BOLD +
+                               "Please enter number 1 or number 2: "+
+                               RESET))
 
             if choice < 1 or choice > 2:
                 raise ValueError
