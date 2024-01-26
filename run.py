@@ -73,14 +73,18 @@ def validate_ticker_symbol(input_value):
     # Check if the input matches the ticker symbol or company name
     if input_value in df["Symbol"].values:
         return input_value
-    elif input_value in df["Security"].str.replace(" ", "").str.upper().values:
-        # Store df attributes in variable
-        security = df["Security"].str.replace(" ", "").str.upper()
-        # Get the corresponding ticker symbol for the company name
-        ticker_symbols = df.loc[security == input_value, "Symbol"]
-        if len(ticker_symbols) > 0:
-            ticker_symbol = ticker_symbols.iloc[0]
-            return ticker_symbol
+    else:
+        # Check if the input is a partial match for company names
+        matching_rows = (
+            df["Security"]
+            .str.replace(" ", "")
+            .str.upper().
+            str.contains(input_value))
+
+        if matching_rows.any():
+            # Get the corresponding ticker symbols for matching company names
+            ticker_symbols = df.loc[matching_rows, "Symbol"].tolist()
+            return ticker_symbols[0]  # Return the first matching ticker symbol
     return None
 
 
