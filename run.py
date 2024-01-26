@@ -286,6 +286,7 @@ def back_to_menu(user_data, ticker):
             if choice == 1:
                 time.sleep(1)
                 user_menu(user_data, ticker)
+                break
 
             elif choice == 2:
                 print("\nQuitting Program...")
@@ -307,6 +308,7 @@ def fetch_stock_data(validated_ticker, duration):
 
     # Fetch historical data
     historical_data = stock_data.history(period=duration)
+    historical_data.index = historical_data.index.date
 
     return historical_data
 
