@@ -20,6 +20,9 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('ticker-history')
 SHEET_NAME = 'Ticker Searches'
 
+URL = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
+PAGE = requests.get(URL)
+
 # ANSI escape code for bold text
 BOLD = "\033[1m"
 # ANSI escape code to reset text formatting
@@ -28,7 +31,7 @@ RESET = "\033[0m"
 USER_MENU = [1, 2, 3, 4, 5, 6]
 BACK_TO_MENU = [1, 2]
 
-welcome_message = """
+WELCOME_MESSAGE = """
     Are you ready to unlock the secrets of the stock market?
     Dive into the world of finance with Ticker Truth,
     your personal financial analysis tool!
@@ -150,43 +153,51 @@ def store_user_name(name):
     return user_data
 
 
-def store_ticker_search_in_sheets(ud, ticker):
+def store_ticker_search_in_sheets(user_data, ticker):
     """
     Stores username and ticker symbol in Google Sheets.
     """
 
     # Fetch all data from the sheet
-    all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
+    all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     # Search for ticker symbol in the local list or the Google Sheets
-    if not any(ticker == row[1] for row in all_d[1:] if row[0] == ud['name']):
+    if not any(
+        ticker == row[1]
+        for row in all_data[1:]
+        if row[0] == user_data['name']
+    ):
 
         # Append the data to the Google Sheets
-        SHEET.worksheet(SHEET_NAME).append_row([ud['name'], ticker])
+        SHEET.worksheet(SHEET_NAME).append_row([user_data['name'], ticker])
 
         print(colored("Successfully stored ", "green") +
               f"{ticker} " + colored("for ", "green") +
-              f"{ud['name']}" + colored(".", "green"))
+              f"{user_data['name']}" + colored(".", "green"))
 
         # Store the ticker symbol in the local list
-        ud['ticker_searches'].append(ticker)
+        user_data['ticker_searches'].append(ticker)
     else:
-        print(f"{ticker} is already stored for {ud['name']}.")
+        print(f"{ticker} is already stored for {user_data['name']}.")
 
 
-def show_previous_searches(ud):
+def show_previous_searches(user_data):
     """
     Displays the previous searches for the user.
     """
 
     # Fetch all data from the sheet
-    all_d = SHEET.worksheet(SHEET_NAME).get_all_values()
+    all_data = SHEET.worksheet(SHEET_NAME).get_all_values()
 
     print("\nRetrieving precious searches...\n")
-    print(f"Previous searches for '{ud['name']}':")
+    print(f"Previous searches for '{user_data['name']}':")
 
-    if len(all_d) > 1:  # Check if there are more rows than just the header
-        prev_searches = (row[1] for row in all_d[1:] if row[0] == ud['name'])
+    if len(all_data) > 1:  # Check if there are more rows than just the header
+        prev_searches = (
+            row[1]
+            for row in all_data[1:]
+            if row[0] == user_data['name']
+        )
         for ticker_symbol in prev_searches:
             print(ticker_symbol)
 
@@ -196,7 +207,7 @@ def show_previous_searches(ud):
 
 # MENU FUNCTIONS
 
-def user_menu(user_data, val_ticker):
+def user_menu(user_data, ticker):
     """
     Displays the user menu and handles user input.
     """
@@ -218,24 +229,24 @@ def user_menu(user_data, val_ticker):
         if menu_option_validation(choice, USER_MENU):
 
             if choice == 1:
-                print(f"\nRetrieving latest stock data for {val_ticker}...\n")
+                print(f"\nRetrieving latest stock data for {ticker}...\n")
                 time.sleep(1)
-                fetch_latest_stock_data(val_ticker)
-                back_to_menu(user_data, val_ticker)
+                fetch_latest_stock_data(ticker)
+                back_to_menu(user_data, ticker)
                 break
 
             elif choice == 2:
-                print(f"\nCalculating daily change for {val_ticker}...\n")
+                print(f"\nCalculating daily change for {ticker}...\n")
                 time.sleep(1)
-                calculate_daily_change(val_ticker)
-                back_to_menu(user_data, val_ticker)
+                calculate_daily_change(ticker)
+                back_to_menu(user_data, ticker)
                 break
 
             elif choice == 3:
-                print(f"\nCalculating 100 day m.a. for {val_ticker}...\n")
+                print(f"\nCalculating 100 day m.a. for {ticker}...\n")
                 time.sleep(1)
-                calculate_100_day_average(val_ticker)
-                back_to_menu(user_data, val_ticker)
+                calculate_100_day_average(ticker)
+                back_to_menu(user_data, ticker)
                 break
 
             elif choice == 4:
@@ -247,7 +258,7 @@ def user_menu(user_data, val_ticker):
 
             elif choice == 5:
                 show_previous_searches(user_data)
-                back_to_menu(user_data, val_ticker)
+                back_to_menu(user_data, ticker)
                 break
 
             elif choice == 6:
@@ -255,10 +266,10 @@ def user_menu(user_data, val_ticker):
                 time.sleep(1)
                 print("Program terminated!")
                 break
-        break
+        continue
 
 
-def back_to_menu(user_data, val_ticker):
+def back_to_menu(user_data, ticker):
     """
     Displays the back to menu option and handles user input.
     """
@@ -274,14 +285,14 @@ def back_to_menu(user_data, val_ticker):
         if menu_option_validation(choice, BACK_TO_MENU):
             if choice == 1:
                 time.sleep(1)
-                user_menu(user_data, val_ticker)
+                user_menu(user_data, ticker)
 
             elif choice == 2:
                 print("\nQuitting Program...")
                 time.sleep(1)
                 print("Program terminated!")
                 break
-        break
+        continue
 
 
 # ANALYSIS FUNCTIONS
@@ -316,10 +327,11 @@ def calculate_daily_change(validated_ticker):
     """
 
     # Set stock data duration to one month
-    his_data = fetch_stock_data(validated_ticker, "1mo")
-    his_data["Daily Change"] = his_data["Close"] - his_data["Open"]
+    historical_data = fetch_stock_data(validated_ticker, "1mo")
+    historical_data["Daily Change"] = (
+        historical_data["Close"] - historical_data["Open"])
 
-    print(his_data[["Open", "Close", "Daily Change"]])
+    print(historical_data[["Open", "Close", "Daily Change"]])
 
 
 def calculate_100_day_average(validated_ticker):
@@ -328,25 +340,14 @@ def calculate_100_day_average(validated_ticker):
     """
 
     # Set stock data duration to one year
-    his_data = fetch_stock_data(validated_ticker, "1y")
-    his_data["100 Day MA"] = his_data["Close"].rolling(window=100).mean()
+    historical_data = fetch_stock_data(validated_ticker, "1y")
+    historical_data["100 Day MA"] = (
+        historical_data["Close"].rolling(window=100).mean())
 
-    print(his_data.tail(20)[["Close", "100 Day MA"]])
+    print(historical_data.tail(20)[["Close", "100 Day MA"]])
 
 
 # STOCK TICKER WEB SCRAPER
-
-
-URL = 'https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
-PAGE = requests.get(URL)
-
-# Check if the request was successful (status code 200)
-if PAGE.status_code == 200:
-    html_text = PAGE.text
-else:
-    print(f"Failed to retrieve the webpage. Status code: {PAGE.status_code}")
-    exit()
-
 
 def create_stock_dataframe():
     """
@@ -394,7 +395,7 @@ def main():
         **  Welcome to Ticker Truth - Your Finance Ally"  **
          *************************************************
           """ + RESET)
-    typewriter_effect(welcome_message)
+    typewriter_effect(WELCOME_MESSAGE)
     print(BOLD + """
          *************************************************
         **                Happy Investing!               **
@@ -418,4 +419,10 @@ def main():
     user_menu(user_data, validated_ticker)
 
 
+# Check if the request was successful (status code 200)
+if PAGE.status_code == 200:
+    html_text = PAGE.text
+else:
+    print(f"Failed to retrieve the webpage. Status code: {PAGE.status_code}")
+    exit()
 main()
