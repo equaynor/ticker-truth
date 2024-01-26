@@ -8,10 +8,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/xterm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xterm/3.14.5/addons/attach/attach.js"></script>
-    <title>Python Terminal by Code Institute</title>
+    <title>Ticker Truth</title>
     <style>
         body {
             font-family: Arial;
+        }
+
+        #main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url(https://github.com/equaynor/ticker-truth/blob/main/assets/background.jpg);
+            background-size: cover;
+        }
+
+        #main-container h1 {
+            color: #26a700;
+            box-shadow: rgb(38 57 77) 0px 20px 30px -10px;
+            background-color: #f6f7f9;
+            padding: 3px 5px;
+            border-radius: 5px;
+            font-size: x-large;
+        }
+
+        #terminal {
+            border: 20px black solid;
         }
 
         /**
