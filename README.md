@@ -108,6 +108,7 @@ The user interface is designed to be engaging and informative. Key pages include
   - Throughout the tool, users receive clear prompts and instructions on available actions.
   - Feedback messages provide information on successful actions or guide users in case of errors.
   ![Error Message](assets/images/error_msg.png)
+  ![Invalid Input](assets/images/invalid_input.png)
 
 #### **Stock Analysis Display:**
 * **Latest Stock Price:**
