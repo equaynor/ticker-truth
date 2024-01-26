@@ -32,6 +32,11 @@
 
 Tapping into the vast realm of financial data, Ticker Truth empowers users to analyze stock ticker symbols and gain valuable insights. The tool's robust features include the ability to input and validate stock ticker symbols, view detailed financial data tables, and receive real-time analysis results.
 
+The fully deployed project can be found [here](https://ticker-truth-2fc7abab85cc.herokuapp.com/).
+
+
+![Website](assets/images/website.png)
+
 ## UX/UI
 
 ### Strategy
@@ -246,6 +251,9 @@ I would like to acknowledge external contributions and learning resources:
 - [Beautiful Soup Pagination](https://medium.com/quick-code/how-to-get-the-next-page-on-beautiful-soup-85b743750df4): Guide on handling pagination with Beautiful Soup.
 - [List of S&P 500 Companies](https://en.wikipedia.org/wiki/List_of_S%26P_500_companies): Wikipedia page listing S&P 500 companies.
 - Code Institute Love Sandwiches Tutorial: Adapted and extended code for Google Sheets integration.
+- [Iasmina Pal](https://github.com/useriasminna/american_pizza_order_system): Adapted code for website layout and readme design. Also took inspiration from her validation function.
+
+## RESOURCES
 
 
 Additional resources and references include:
@@ -264,10 +272,13 @@ A suite of tools facilitated the development and validation process:
 - [PEP8 Validator](https://pep8ci.herokuapp.com/): Python code validation.
 - [Heroku](https://dashboard.heroku.com/): Deployment platform.
 - [LucidChart](https://www.lucidchart.com/): Flowchart creation tool.
+- [Google Sheets](https://www.google.com/sheets/about/): Spreadsheet for data storage.
+- [flaticon](https://www.flaticon.com/): Icon library.
 
 ## Acknowledgements
 
 - Code Institute for all the material and support offered
+- [Iasmina Pal](https://github.com/useriasminna) for her great work with [American Pizza Order System](https://github.com/useriasminna/american_pizza_order_system)
 - My mentor Medale Oluwafemi for all the great tips and helpful feedback.
 - My wife for all the support and encouragement.
 - British computer scientist Tim Berners-Lee for his work on the World Wide Web and enabling me to remotely learn how to code.

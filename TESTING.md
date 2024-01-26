@@ -1,12 +1,25 @@
 # Testing
+Testing was divided into three sections:
+  - [VALIDATORS TESTING](#validators-testing)
+  - [MANUAL TESTING](#manual-testing)
+  - [USER STORIES TESTING](#user-stories-testing)
 
-## Validator Testing
+<hr>
 
-- PEP8
+## VALIDATOR TESTING
+### PEP8 Validator
   - No errors were returned from PEP8online.com
 ![PEP8 Validation](assets/images/pep8_validation.png)
 
-# Manual Testing
+### HTML Validator
+  - No errors were returned from the W3C validator
+![HTML Validation](assets/images/html_validation.png)
+
+### CSS Validator
+  - No errors were returned from the W3C validator
+![CSS Validation](assets/images/css_validation.png)
+
+# MANUAL TESTING
 
 | Feature                        | Action                                      | Effect                                                                                      |
 | ------------------------------ | ------------------------------------------- | ------------------------------------------------------------------------------------------- |
@@ -22,7 +35,7 @@
 | Quit                           | Enter "6" / Enter "2"                       | Quits the program                                                                         |
 | Back to Menu                   | Enter "1"                                   | Opens the user menu                                                                       |
 
-## User Stories
+## USER STORIES TESTING
 
 | User Story                                  | User Story Testing                                                                                          |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
