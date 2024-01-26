@@ -78,8 +78,8 @@ def validate_ticker_symbol(input_value):
         matching_rows = (
             df["Security"]
             .str.replace(" ", "")
-            .str.upper().
-            str.contains(input_value))
+            .str.upper()
+            .str.contains(input_value))
 
         if matching_rows.any():
             # Get the corresponding ticker symbols for matching company names
